@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const Table = () => {
   // state varables 
+  const [id, setId] = useState(null)
   const [data, setData] = useState(null);
   const [key, setKey] = useState(null)
 
@@ -56,7 +57,6 @@ const Table = () => {
   useEffect(() => {
     getData();
   }, [key])
-  
 
   return (
     <>
@@ -88,7 +88,7 @@ const Table = () => {
             {/* <!-- row --> */}
             {data != null &&
               data.map((item, index) => (
-                <TableItems key={index} item={item} index={index} />
+                <TableItems key={index} item={item} index={index} setKey={setKey} setId={setId} id={id} />
               ))}
           </tbody>
         </table>
