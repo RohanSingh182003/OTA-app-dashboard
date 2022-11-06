@@ -41,6 +41,10 @@ const TableItems = (props) => {
     }
   };
   const handleDelete = async (id) => {
+    let ans = confirm("Are you sure?");
+    if (ans != true) {
+      return null;
+    }
     let res = await axios.delete(`http://localhost:5000/api/dashboard/${id}`);
     if (res.status === 200) {
       toast.success("product deleted successfully!");
