@@ -6,6 +6,16 @@ import { toast } from "react-toastify";
 import UpdateProductModal from "../modals/UpdateProductModal";
 
 const TableItems = (props) => {
+
+  const [data, setData] = useState(null)
+
+  const getData = async (id) => {
+    let res = await axios.get(`http://localhost:5000/api/dashboard/${id}`)
+    setData(...res.data)
+    console.log(...res.data)
+  }
+  
+
   const handleUpdate = async (
     prod_name,
     ip_address,
@@ -55,14 +65,14 @@ const TableItems = (props) => {
   };
   return (
     <>
-      <UpdateProductModal handleUpdate={handleUpdate} id={props.id} />{" "}
+      <UpdateProductModal data={data} handleUpdate={handleUpdate} />{" "}
       <tr className="hover">
         <th>{props.index + 1}</th>
         <td>{props.item.prod_name}</td>
         <td>{props.item.ip_address}</td>
         <td>{props.item.mac_address}</td>
         <td>{props.item.function}</td>
-        <td>{props.item.version}</td>
+        <td>{Number.parseFloat(props.item.version)}</td>
         <td>{props.item.last_updated}</td>
         <td>
           <div className="tooltip" data-tip="Update">
@@ -70,6 +80,7 @@ const TableItems = (props) => {
               <BsFillPenFill
                 onClick={() => {
                   props.setId(props.item._id);
+                  getData(props.item._id)
                 }}
                 className="text-blue-600 w-10 cursor-pointer"
               />

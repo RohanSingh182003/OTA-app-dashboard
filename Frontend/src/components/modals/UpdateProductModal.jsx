@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const UpdateProductModal = ({ handleUpdate , id }) => {
+const UpdateProductModal = ({ handleUpdate, data }) => {
   const [name, setName] = useState("");
   const [ip, setIp] = useState("");
   const [mac, setMac] = useState("");
@@ -117,7 +117,7 @@ const UpdateProductModal = ({ handleUpdate , id }) => {
             version.length > 0 ? (
               <label
                 onClick={() => {
-                  handleUpdate(name, ip, mac, func, version );
+                  handleUpdate(name, ip, mac, func, version);
                   setTimeout(() => {
                     setName("");
                     setIp("");
