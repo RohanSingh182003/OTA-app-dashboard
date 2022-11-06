@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const UpdateProductModal = ({ handleUpdate, data }) => {
@@ -8,6 +7,7 @@ const UpdateProductModal = ({ handleUpdate, data }) => {
   const [mac, setMac] = useState("");
   const [func, setFunc] = useState("");
   const [version, setVersion] = useState("");
+
   return (
     <>
       <input type="checkbox" id="my-modal-5" className="modal-toggle" />
