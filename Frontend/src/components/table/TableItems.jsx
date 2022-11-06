@@ -41,9 +41,7 @@ const TableItems = (props) => {
     }
   };
   const handleDelete = async (id) => {
-    let res = await axios.delete(
-      `http://localhost:5000/api/dashboard/${id}`
-    );
+    let res = await axios.delete(`http://localhost:5000/api/dashboard/${id}`);
     if (res.status === 200) {
       toast.success("product deleted successfully!");
       props.setKey(Math.random());
@@ -76,9 +74,12 @@ const TableItems = (props) => {
         </td>
         <td>
           <div className="tooltip" data-tip="Delete">
-            <AiFillDelete onClick={() => {
-                  handleDelete(props.item._id)
-                }} className="text-red-600 w-10 h-6 cursor-pointer" />
+            <AiFillDelete
+              onClick={() => {
+                handleDelete(props.item._id);
+              }}
+              className="text-red-600 w-10 h-6 cursor-pointer"
+            />
           </div>
         </td>
       </tr>
