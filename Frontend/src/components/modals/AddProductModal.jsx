@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const Modal = () => {
+const Modal = ({ handleSubmit }) => {
+  const [name, setName] = useState("");
+  const [ip, setIp] = useState("");
+  const [mac, setMac] = useState("");
+  const [func, setFunc] = useState("");
+  const [version, setVersion] = useState("");
   return (
     <>
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
       <label htmlFor="my-modal-4" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
           {/* form starts here */}
-          <form>
+          <div>
             <div className="relative z-0 mb-6 w-full group">
               <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 type="text"
                 name="floating_email"
                 id="floating_email"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required=""
+                required
               />
               <label
                 htmlFor="floating_email"
@@ -26,12 +34,14 @@ const Modal = () => {
             </div>
             <div className="relative z-0 mb-6 w-full group">
               <input
+                onChange={(e) => setIp(e.target.value)}
+                value={ip}
                 type="text"
                 name="floating_password"
                 id="floating_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required=""
+                required
               />
               <label
                 htmlFor="floating_password"
@@ -42,12 +52,14 @@ const Modal = () => {
             </div>
             <div className="relative z-0 mb-6 w-full group">
               <input
+                onChange={(e) => setMac(e.target.value)}
+                value={mac}
                 type="text"
                 name="repeat_password"
                 id="floating_repeat_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required=""
+                required
               />
               <label
                 htmlFor="floating_repeat_password"
@@ -59,12 +71,14 @@ const Modal = () => {
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative z-0 mb-6 w-full group">
                 <input
+                  onChange={(e) => setFunc(e.target.value)}
+                  value={func}
                   type="text"
                   name="floating_first_name"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required=""
+                  required
                 />
                 <label
                   htmlFor="floating_first_name"
@@ -75,12 +89,14 @@ const Modal = () => {
               </div>
               <div className="relative z-0 mb-6 w-full group">
                 <input
+                  onChange={(e) => setVersion(e.target.value)}
+                  value={version}
                   type="text"
                   name="floating_last_name"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required=""
+                  required
                 />
                 <label
                   htmlFor="floating_last_name"
@@ -90,12 +106,37 @@ const Modal = () => {
                 </label>
               </div>
             </div>
-          </form>
+          </div>
           {/* modal closeing or sumiting button  */}
           <div className="grid place-items-end">
-            <label htmlFor="my-modal-4" className="btn btn-ghost text-blue-700">
-              Add Product
-            </label>
+            {name.length > 0 &&
+            ip.length > 0 &&
+            mac.length > 0 &&
+            func.length > 0 &&
+            version.length > 0 ? (
+              <label
+                onClick={() => {
+                  handleSubmit(name, ip, mac, func, version);
+                  toast.success("product added successfully!");
+                  setName("");
+                  setIp("");
+                  setMac("");
+                  setFunc("");
+                  setVersion("");
+                }}
+                htmlFor="my-modal-4"
+                className="btn btn-ghost text-blue-700"
+              >
+                Add Product
+              </label>
+            ) : (
+              <label
+                onClick={() => toast.warn("please fill all fields.")}
+                className="btn btn-ghost text-blue-700"
+              >
+                Add Product
+              </label>
+            )}
           </div>
         </label>
       </label>
