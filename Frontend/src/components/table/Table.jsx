@@ -2,23 +2,60 @@ import React, { useEffect, useState } from "react";
 import TableItems from "./TableItems";
 import Modal from "../modals/AddProductModal";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Table = () => {
-
-  const [data, setData] = useState(null)
+  // state varables 
+  const [data, setData] = useState(null);
+  const [key, setKey] = useState(null)
 
   const getData = async () => {
-    let response = await axios.get('http://localhost:5000/api/dashboard')
-    setData(response.data)
-  }
+    let response = await axios.get("http://localhost:5000/api/dashboard");
+    setData(response.data);
+  };
 
-  const handleSubmit = async (prod_name,ip_address,mac_address,func,version) => {
-    console.log(prod_name,ip_address,mac_address,func,version)
-  }
+  // function for add data
+  const handleSubmit = async (
+    prod_name,
+    ip_address,
+    mac_address,
+    func,
+    version
+  ) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    // This arrangement can be altered based on how we want the date's format to appear.
+    let currentDate = `${day}-${month}-${year}`;
+    let myData = {
+      prod_name,
+      ip_address,
+      mac_address,
+      function: func,
+      version,
+      last_updated: currentDate,
+    };
+    let res = await axios.post("http://localhost:5000/api/dashboard", myData);
+    if (res.status === 200) {
+      toast.success("product added successfully!");
+      setKey(Math.random())
+    }
+    else{
+      toast.error('An error occured!')
+    }
+  };
 
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
+
+  // render component after adding new data
+  useEffect(() => {
+    getData();
+  }, [key])
   
 
   return (
@@ -26,7 +63,9 @@ const Table = () => {
       <Modal handleSubmit={handleSubmit} />
       {/* add products and open modal button */}
       <div className="grid w-full place-items-end">
-      <label htmlFor="my-modal-4" className="btn btn-ghost text-blue-500">+ Add Products</label>
+        <label htmlFor="my-modal-4" className="btn btn-ghost text-blue-500">
+          + Add Products
+        </label>
       </div>
       <div className="overflow-x-auto w-full">
         {/* table starts here */}
@@ -47,7 +86,10 @@ const Table = () => {
           </thead>
           <tbody>
             {/* <!-- row --> */}
-            {data!=null && data.map((item , index)=> <TableItems key={index} item={item} index={index} />)}
+            {data != null &&
+              data.map((item, index) => (
+                <TableItems key={index} item={item} index={index} />
+              ))}
           </tbody>
         </table>
       </div>

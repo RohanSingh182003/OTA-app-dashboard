@@ -117,12 +117,13 @@ const Modal = ({ handleSubmit }) => {
               <label
                 onClick={() => {
                   handleSubmit(name, ip, mac, func, version);
-                  toast.success("product added successfully!");
-                  setName("");
-                  setIp("");
-                  setMac("");
-                  setFunc("");
-                  setVersion("");
+                  setTimeout(() => {
+                    setName("");
+                    setIp("");
+                    setMac("");
+                    setFunc("");
+                    setVersion("");
+                  }, 1000);
                 }}
                 htmlFor="my-modal-4"
                 className="btn btn-ghost text-blue-700"
