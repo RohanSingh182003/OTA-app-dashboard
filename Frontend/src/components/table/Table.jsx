@@ -5,10 +5,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Table = () => {
-  // state varables 
-  const [id, setId] = useState(null)
+  // state varables
+  const [id, setId] = useState(null);
   const [data, setData] = useState(null);
-  const [key, setKey] = useState(null)
+  const [key, setKey] = useState(null);
 
   const getData = async () => {
     let response = await axios.get("http://localhost:5000/api/dashboard");
@@ -42,10 +42,9 @@ const Table = () => {
     let res = await axios.post("http://localhost:5000/api/dashboard", myData);
     if (res.status === 200) {
       toast.success("product added successfully!");
-      setKey(Math.random())
-    }
-    else{
-      toast.error('An error occured!')
+      setKey(Math.random());
+    } else {
+      toast.error("An error occured!");
     }
   };
 
@@ -56,7 +55,7 @@ const Table = () => {
   // render component after adding new data
   useEffect(() => {
     getData();
-  }, [key])
+  }, [key]);
 
   return (
     <>
@@ -88,7 +87,14 @@ const Table = () => {
             {/* <!-- row --> */}
             {data != null &&
               data.map((item, index) => (
-                <TableItems key={index} item={item} index={index} setKey={setKey} setId={setId} id={id} />
+                <TableItems
+                  key={index}
+                  item={item}
+                  index={index}
+                  setKey={setKey}
+                  setId={setId}
+                  id={id}
+                />
               ))}
           </tbody>
         </table>

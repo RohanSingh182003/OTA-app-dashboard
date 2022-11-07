@@ -122,13 +122,6 @@ const UpdateProductModal = ({
               <label
                 onClick={() => {
                   handleUpdate(name, ip, mac, func, version);
-                  setTimeout(() => {
-                    setName("");
-                    setIp("");
-                    setMac("");
-                    setFunc("");
-                    setVersion("");
-                  }, 1000);
                 }}
                 htmlFor={`my-modal-${index}`}
                 className="btn btn-ghost text-blue-700"

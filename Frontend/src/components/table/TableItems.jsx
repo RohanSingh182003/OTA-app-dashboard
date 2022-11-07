@@ -13,6 +13,16 @@ const TableItems = (props) => {
     func,
     version
   ) => {
+    if (
+      prod_name.length === 0 ||
+      ip_address.length === 0 ||
+      mac_address.length === 0 ||
+      func.length === 0 ||
+      version.length === 0
+    ) {
+      toast.warn("please fill all fields");
+      return null;
+    }
     const date = new Date();
 
     let day = date.getDate();
@@ -55,7 +65,15 @@ const TableItems = (props) => {
   };
   return (
     <>
-     <UpdateProductModal index={props.index + 1} handleUpdate={handleUpdate} prod_name={props.item.prod_name} ip_address={props.item.ip_address} mac_address={props.item.mac_address} current_func={props.item.function} current_version={Number.parseFloat(props.item.version)} />
+      <UpdateProductModal
+        index={props.index + 1}
+        handleUpdate={handleUpdate}
+        prod_name={props.item.prod_name}
+        ip_address={props.item.ip_address}
+        mac_address={props.item.mac_address}
+        current_func={props.item.function}
+        current_version={Number.parseFloat(props.item.version)}
+      />
       <tr className="hover">
         <th>{props.index + 1}</th>
         <td>{props.item.prod_name}</td>
