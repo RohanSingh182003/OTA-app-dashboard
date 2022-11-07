@@ -63,7 +63,7 @@ const Table = () => {
       <Modal handleSubmit={handleSubmit} />
       {/* add products and open modal button */}
       <div className="grid w-full place-items-end">
-        <label htmlFor="my-modal-4" className="btn btn-ghost text-blue-500">
+        <label htmlFor="my-modal" className="btn btn-ghost text-blue-500">
           + Add Products
         </label>
       </div>

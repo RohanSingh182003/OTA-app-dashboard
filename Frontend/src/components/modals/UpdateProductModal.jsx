@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const UpdateProductModal = ({ handleUpdate, data }) => {
-  const [name, setName] = useState("");
-  const [ip, setIp] = useState("");
-  const [mac, setMac] = useState("");
-  const [func, setFunc] = useState("");
-  const [version, setVersion] = useState("");
+const UpdateProductModal = ({
+  handleUpdate,
+  prod_name,
+  ip_address,
+  mac_address,
+  current_func,
+  current_version,
+  index
+}) => {
+  // console.log(prod_name , ip_address , mac_address , current_func , current_version)
+  const [name, setName] = useState(prod_name);
+  const [ip, setIp] = useState(ip_address);
+  const [mac, setMac] = useState(mac_address);
+  const [func, setFunc] = useState(current_func);
+  const [version, setVersion] = useState(current_version);
 
   return (
     <>
-      <input type="checkbox" id="my-modal-5" className="modal-toggle" />
-      <label htmlFor="my-modal-5" className="modal cursor-pointer">
+      <input type="checkbox" id={`my-modal-${index}`} className="modal-toggle" />
+      <label htmlFor={`my-modal-${index}`} className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
           {/* form starts here */}
           <div>
@@ -110,11 +119,6 @@ const UpdateProductModal = ({ handleUpdate, data }) => {
           </div>
           {/* modal closeing or sumiting button  */}
           <div className="grid place-items-end">
-            {name.length > 0 &&
-            ip.length > 0 &&
-            mac.length > 0 &&
-            func.length > 0 &&
-            version.length > 0 ? (
               <label
                 onClick={() => {
                   handleUpdate(name, ip, mac, func, version);
@@ -126,20 +130,12 @@ const UpdateProductModal = ({ handleUpdate, data }) => {
                     setVersion("");
                   }, 1000);
                 }}
-                htmlFor="my-modal-5"
+                htmlFor={`my-modal-${index}`}
                 className="btn btn-ghost text-blue-700"
               >
                 Update Product
               </label>
-            ) : (
-              <label
-                onClick={() => toast.warn("please fill all fields.")}
-                className="btn btn-ghost text-blue-700"
-              >
-                Update Product
-              </label>
-            )}
-          </div>
+              </div>
         </label>
       </label>
     </>

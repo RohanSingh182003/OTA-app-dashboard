@@ -9,8 +9,8 @@ const Modal = ({ handleSubmit }) => {
   const [version, setVersion] = useState("");
   return (
     <>
-      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-      <label htmlFor="my-modal-4" className="modal cursor-pointer">
+      <input type="checkbox" id="my-modal" className="modal-toggle" />
+      <label htmlFor="my-modal" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
           {/* form starts here */}
           <div>
@@ -125,7 +125,7 @@ const Modal = ({ handleSubmit }) => {
                     setVersion("");
                   }, 1000);
                 }}
-                htmlFor="my-modal-4"
+                htmlFor="my-modal"
                 className="btn btn-ghost text-blue-700"
               >
                 Add Product

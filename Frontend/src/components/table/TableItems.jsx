@@ -1,21 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BsFillPenFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import UpdateProductModal from "../modals/UpdateProductModal";
 
 const TableItems = (props) => {
-
-  const [data, setData] = useState(null)
-
-  const getData = async (id) => {
-    let res = await axios.get(`http://localhost:5000/api/dashboard/${id}`)
-    setData(...res.data)
-    console.log(...res.data)
-  }
-  
-
   const handleUpdate = async (
     prod_name,
     ip_address,
@@ -65,7 +55,7 @@ const TableItems = (props) => {
   };
   return (
     <>
-      <UpdateProductModal data={data} handleUpdate={handleUpdate} />{" "}
+     <UpdateProductModal index={props.index + 1} handleUpdate={handleUpdate} prod_name={props.item.prod_name} ip_address={props.item.ip_address} mac_address={props.item.mac_address} current_func={props.item.function} current_version={Number.parseFloat(props.item.version)} />
       <tr className="hover">
         <th>{props.index + 1}</th>
         <td>{props.item.prod_name}</td>
@@ -76,11 +66,10 @@ const TableItems = (props) => {
         <td>{props.item.last_updated}</td>
         <td>
           <div className="tooltip" data-tip="Update">
-            <label htmlFor="my-modal-5">
+            <label htmlFor={`my-modal-${props.index + 1}`}>
               <BsFillPenFill
                 onClick={() => {
                   props.setId(props.item._id);
-                  getData(props.item._id)
                 }}
                 className="text-blue-600 w-10 cursor-pointer"
               />
