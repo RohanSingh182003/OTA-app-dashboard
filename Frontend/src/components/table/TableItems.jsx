@@ -40,7 +40,7 @@ const TableItems = (props) => {
       last_updated: currentDate,
     };
     let res = await axios.put(
-      `http://localhost:5000/api/dashboard/${props.id}`,
+      `http://localhost:4000/api/product/${props.id}`,
       myData
     );
     if (res.status === 200) {
@@ -55,7 +55,7 @@ const TableItems = (props) => {
     if (ans != true) {
       return null;
     }
-    let res = await axios.delete(`http://localhost:5000/api/dashboard/${id}`);
+    let res = await axios.delete(`http://localhost:4000/api/product/${id}`);
     if (res.status === 200) {
       toast.success("product deleted successfully!");
       props.setKey(Math.random());

@@ -11,7 +11,7 @@ const Table = () => {
   const [key, setKey] = useState(null);
 
   const getData = async () => {
-    let response = await axios.get("http://localhost:5000/api/dashboard");
+    let response = await axios.get("http://localhost:4000/api/product");
     setData(response.data);
   };
 
@@ -39,7 +39,7 @@ const Table = () => {
       version,
       last_updated: currentDate,
     };
-    let res = await axios.post("http://localhost:5000/api/dashboard", myData);
+    let res = await axios.post("http://localhost:4000/api/product", myData);
     if (res.status === 200) {
       toast.success("product added successfully!");
       setKey(Math.random());
