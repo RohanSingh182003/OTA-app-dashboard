@@ -39,12 +39,16 @@ const Table = () => {
       version,
       last_updated: currentDate,
     };
-    let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/product", myData);
-    if (res.status === 200) {
-      toast.success("product added successfully!");
-      setKey(Math.random());
-    } else {
-      toast.error("An error occured!");
+    try {
+      let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/product", myData);
+      if (res.status === 200) {
+        toast.success("product added successfully!");
+        setKey(Math.random());
+      } else {
+        toast.error("An error occured!");
+      }
+    } catch (error) {
+      toast.error("Product already exists! Enter a different one")
     }
   };
 

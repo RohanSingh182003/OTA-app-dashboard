@@ -13,53 +13,63 @@ const TableItems = (props) => {
     func,
     version
   ) => {
-    if (
-      prod_name.length === 0 ||
-      ip_address.length === 0 ||
-      mac_address.length === 0 ||
-      func.length === 0 ||
-      version.length === 0
-    ) {
-      toast.warn("please fill all fields");
-      return null;
-    }
-    const date = new Date();
+    try {
+      if (
+        prod_name.length === 0 ||
+        ip_address.length === 0 ||
+        mac_address.length === 0 ||
+        func.length === 0 ||
+        version.length === 0
+      ) {
+        toast.warn("please fill all fields");
+        return null;
+      }
+      const date = new Date();
 
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
 
-    // This arrangement can be altered based on how we want the date's format to appear.
-    let currentDate = `${day}-${month}-${year}`;
-    let myData = {
-      prod_name,
-      ip_address,
-      mac_address,
-      function: func,
-      version,
-      last_updated: currentDate,
-    };
-    let res = await axios.put(
-      `https://six-sense-mobility-iot.vercel.app/api/product/${props.id}`,
-      myData
-    );
-    if (res.status === 200) {
-      toast.success("details updated successfully!");
-      props.setKey(Math.random());
-    } else {
+      // This arrangement can be altered based on how we want the date's format to appear.
+      let currentDate = `${day}-${month}-${year}`;
+      let myData = {
+        prod_name,
+        ip_address,
+        mac_address,
+        function: func,
+        version,
+        last_updated: currentDate,
+      };
+      let res = await axios.put(
+        `https://six-sense-mobility-iot.vercel.app/api/product/${props.id}`,
+        myData
+      );
+      if (res.status === 200) {
+        toast.success("details updated successfully!");
+        props.setKey(Math.random());
+      } else {
+        toast.error("An error occured!");
+      }
+    } catch (error) {
       toast.error("An error occured!");
     }
   };
   const handleDelete = async (id) => {
-    let ans = confirm("Are you sure?");
-    if (ans != true) {
-      return null;
-    }
-    let res = await axios.delete(`https://six-sense-mobility-iot.vercel.app/api/product/${id}`);
-    if (res.status === 200) {
-      toast.success("product deleted successfully!");
-      props.setKey(Math.random());
-    } else {
+    try {
+      let ans = confirm("Are you sure?");
+      if (ans != true) {
+        return null;
+      }
+      let res = await axios.delete(
+        `https://six-sense-mobility-iot.vercel.app/api/product/${id}`
+      );
+      if (res.status === 200) {
+        toast.success("product deleted successfully!");
+        props.setKey(Math.random());
+      } else {
+        toast.error("An error occured!");
+      }
+    } catch (error) {
       toast.error("An error occured!");
     }
   };
