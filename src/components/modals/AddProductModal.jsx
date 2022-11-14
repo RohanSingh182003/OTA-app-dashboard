@@ -7,6 +7,12 @@ const Modal = ({ handleSubmit }) => {
   const [mac, setMac] = useState("");
   const [func, setFunc] = useState("");
   const [version, setVersion] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
   return (
     <>
       <input type="checkbox" id="my-modal" className="modal-toggle" />
@@ -106,6 +112,12 @@ const Modal = ({ handleSubmit }) => {
                 </label>
               </div>
             </div>
+            {/* upload file */}
+            <input
+              type="file"
+              onChange={changeHandler}
+              className="file-input w-full max-w-xs"
+            />
           </div>
           {/* modal closeing or sumiting button  */}
           <div className="grid place-items-end">
@@ -113,16 +125,18 @@ const Modal = ({ handleSubmit }) => {
             ip.length > 0 &&
             mac.length > 0 &&
             func.length > 0 &&
-            version.length > 0 ? (
+            version.length > 0 && 
+            selectedFile != null ? (
               <label
                 onClick={() => {
-                  handleSubmit(name, ip, mac, func, version);
+                  handleSubmit(name, ip, mac, func, version, selectedFile);
                   setTimeout(() => {
                     setName("");
                     setIp("");
                     setMac("");
                     setFunc("");
                     setVersion("");
+                    selectedFile(null);
                   }, 1000);
                 }}
                 htmlFor="my-modal"

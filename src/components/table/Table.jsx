@@ -11,7 +11,7 @@ const Table = () => {
   const [key, setKey] = useState(null);
 
   const getData = async () => {
-    let response = await axios.get("https://six-sense-mobility-iot.vercel.app/api/product");
+    let response = await axios.get("https://six-sense-mobility-iot.vercel.app/api/products");
     setData(response.data);
   };
 
@@ -21,26 +21,21 @@ const Table = () => {
     ip_address,
     mac_address,
     func,
-    version
+    version,
+    file
   ) => {
-    const date = new Date();
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    // This arrangement can be altered based on how we want the date's format to appear.
-    let currentDate = `${day}-${month}-${year}`;
     let myData = {
       prod_name,
       ip_address,
       mac_address,
       function: func,
       version,
-      last_updated: currentDate,
+      last_updated: new Date(),
+      file
     };
     try {
-      let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/product", myData);
+      let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/products", myData);
+      console.log(res)
       if (res.status === 200) {
         toast.success("product added successfully!");
         setKey(Math.random());
@@ -48,6 +43,7 @@ const Table = () => {
         toast.error("An error occured!");
       }
     } catch (error) {
+      console.log(error)
       toast.error("Product already exists! Enter a different one")
     }
   };
