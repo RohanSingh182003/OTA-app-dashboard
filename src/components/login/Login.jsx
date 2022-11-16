@@ -1,9 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
+import { toast } from "react-toastify";
+import axios from "axios";
+import ToastContainer from '../common/ToastContainer'
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let res = await axios.get("http://localhost:3000/api/users");
+
+    let flag = 0;
+
+    res.data.forEach((ele) => {
+      if (ele.email.includes(email)) {
+        flag++;
+      }
+    });
+
+    if (flag != 0) {
+      setTimeout(() => {
+        toast.success("Login successfully!");
+      }, 500);
+      return navigate('/')
+    } else {
+      toast.error("No user found!");
+    }
+  };
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
+      <ToastContainer/>
       <div className="hidden md:block w-1/2 h-full bg-black">
         <div className="h-full w-full grid place-items-center">
           <div>
@@ -26,10 +56,12 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 {/* email address  */}
                 <div className="relative z-0 mb-6 w-full group">
                   <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     name="floating_email"
                     id="floating_email"
@@ -47,6 +79,8 @@ const Login = () => {
                 {/* password  */}
                 <div className="relative z-0 mb-6 w-full group">
                   <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     name="floating_password"
                     id="floating_password"
