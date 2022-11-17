@@ -14,23 +14,22 @@ const Login = () => {
 
     let res = await axios.get("http://localhost:3000/api/users");
 
-    let flag = 0;
+    let user = res.data.find((ele)=> ele.email === email)
 
-    res.data.forEach((ele) => {
-      if (ele.email.includes(email)) {
-        flag++;
-      }
-    });
-
-    if (flag != 0) {
-      setTimeout(() => {
-        toast.success("Login successfully!");
+    if (!user) {
+      return toast.error("user doesn't exists.");
+    } 
+    let enc_password = user.password;
+    var dec_password  = CryptoJS.AES.decrypt(enc_password, 'SixSenseMobility').toString(CryptoJS.enc.Utf8);
+    if(password != dec_password){
+      return toast.error('wrong credentials.')
+    }
+    setTimeout(() => {
+      toast.success("login successfully!");
       }, 500);
       return navigate('/')
-    } else {
-      toast.error("No user found!");
-    }
   };
+
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
       <ToastContainer/>
