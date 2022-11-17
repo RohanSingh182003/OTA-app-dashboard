@@ -12,7 +12,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let res = await axios.get("http://localhost:3000/api/users");
+    let res = await axios.get("https://six-sense-mobility-iot.vercel.app/api/users");
 
     let user = res.data.find((ele)=> ele.email === email)
 

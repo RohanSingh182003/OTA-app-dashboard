@@ -16,7 +16,7 @@ const Singup = () => {
     if (password != confirmPassword) {
       return toast.error("passwords doesn't matched");
     }
-    let response = await axios.get("http://localhost:3000/api/users");
+    let response = await axios.get("https://six-sense-mobility-iot.vercel.app/api/users");
 
     let enc_password = CryptoJS.AES.encrypt(password, 'SixSenseMobility').toString(); // encrypt password
 
@@ -26,7 +26,7 @@ const Singup = () => {
       return toast.warn('user already exists.')
     }
 
-    let res = await axios.post("http://localhost:3000/api/users", {
+    let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/users", {
       email,
       password:enc_password,
     });
