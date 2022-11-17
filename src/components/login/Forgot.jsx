@@ -1,14 +1,59 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import CryptoJS from "crypto-js";
+import ToastContainer from "../common/ToastContainer";
 
 const Forgot = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let res = await axios.get("http://localhost:3000/api/users");
+
+    let user = res.data.find((ele) => ele.email === email);
+
+    if (!user) {
+      return toast.error("account doesn't exists");
+    }
+
+    if (password != confirmPassword) {
+      return toast.warn("passwords are not same");
+    }
+
+    let enc_password = CryptoJS.AES.encrypt(
+      password,
+      "SixSenseMobility"
+    ).toString();
+
+    let response = await axios.put(`http://localhost:3000/api/users/${user._id}`, {
+      password: enc_password,
+    });
+
+    if (response.status != 200) {
+      return toast.error("an error occured!");
+    }
+
+    setTimeout(() => {
+      toast.success("new password set successfully!");
+    }, 500);
+    return navigate("/login");
+  };
+
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
+      <ToastContainer />
       <div className="hidden md:block w-1/2 h-full bg-black">
         <div className="h-full w-full grid place-items-center">
           <div>
             <h1 className="text-white text-5xl">Six Sense Mobility</h1>
-            <p className="text-gray-400 text-right mt-1 mr-1">company tagline here</p>
+            <p className="text-gray-400 text-right mt-1 mr-1">
+              company tagline here
+            </p>
           </div>
         </div>
       </div>
@@ -24,10 +69,12 @@ const Forgot = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Recover account and credentials
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 {/* email address  */}
                 <div className="relative z-0 mb-6 w-full group">
                   <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     name="floating_email"
                     id="floating_email"
@@ -45,6 +92,8 @@ const Forgot = () => {
                 {/* new password  */}
                 <div className="relative z-0 mb-6 w-full group">
                   <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     name="floating_password"
                     id="floating_password"
@@ -62,6 +111,8 @@ const Forgot = () => {
                 {/* confirm password  */}
                 <div className="relative z-0 mb-6 w-full group">
                   <input
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     type="password"
                     name="floating_password2"
                     id="floating_password2"
@@ -82,7 +133,7 @@ const Forgot = () => {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Remember password ?{" "}
                   <Link
-                    to={'/login'}
+                    to={"/login"}
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Sign in
