@@ -24,6 +24,7 @@ const Login = () => {
     if(password != dec_password){
       return toast.error('wrong credentials.')
     }
+    localStorage.setItem('user',JSON.stringify(user))
     setTimeout(() => {
       toast.success("login successfully!");
       }, 500);
