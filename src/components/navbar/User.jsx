@@ -16,11 +16,11 @@ const User = () => {
   
   return (
     <button className="btn btn-ghost btn-circle dropdown dropdown-end">
-      <div className="tooltip tooltip-left" data-tip={user.email}>
+      <div className="tooltip tooltip-left" data-tip={user?.email}>
       <div tabIndex={0} className="avatar">
       </div>
         <div className="w-8 rounded-full">
-          <p className="-mt-3 text-xl">{user.email.slice(0,2)}</p>
+          <p className="-mt-3 text-xl">{user?.email.slice(0,2)}</p>
         </div>
       </div>
       <ul
