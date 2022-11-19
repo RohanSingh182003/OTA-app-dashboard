@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
@@ -18,9 +18,17 @@ const Singup = () => {
     if (user) {
       return toast.warn("user already exists.");
     }
-    localStorage.setItem("email", JSON.stringify(email));
+    localStorage.setItem("email", email);
     navigate("/emailOtp");
   };
+
+  useEffect(() => {
+    let user = localStorage.getItem('user')
+    if(user){
+      return navigate('/')
+    }
+  }, [])
+  
 
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">

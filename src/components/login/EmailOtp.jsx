@@ -5,30 +5,42 @@ import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
 
 const EmailOtp = () => {
-  const [num, setNum] = useState(Math.floor(Math.random()*1000001))
-  const navigate = useNavigate()
+  const [num, setNum] = useState(Math.floor(Math.random() * 1000001));
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (OTP.length === 0) {
       return toast.warn("please fill the OTP first");
     }
-    if(OTP != num){
-      return toast.warn('please enter a valid OTP')
+    if (OTP != num) {
+      return toast.warn("please enter a valid OTP");
     }
-    localStorage.setItem('emailOTP',OTP)
-    navigate('/setPassword')
+    localStorage.setItem("emailOTP", OTP);
+    navigate("/setPassword");
   };
   const [OTP, setOTP] = useState("");
 
   const sendEmail = async (email) => {
-    let res = await axios.post('https://six-sense-mobility-iot.vercel.app/api/otp',{
-      email , 
-      otp : num
-    })
-    if(res.status != 200){
-      return toast.error('an error occured!')
+    let res = await axios.post(
+      "https://six-sense-mobility-iot.vercel.app/api/otp",
+      {
+        email,
+        otp: num,
+      }
+    );
+    if (res.status != 200) {
+      return toast.error("an error occured!");
     }
-    toast.success(`OTP send to ${email}`)
+    toast.success(`OTP send to ${email}`);
+  };
+
+  const resendOTP = () => {
+    let email = localStorage.getItem("email");
+    if (email) {
+      sendEmail(email);
+    } else {
+      toast.error("an error occured!");
+    }
   };
 
   useEffect(() => {
@@ -36,14 +48,12 @@ const EmailOtp = () => {
     if (email) {
       sendEmail(email);
     }
-    if(localStorage.getItem('user')){
-      return navigate('/')
-    }
-    else if(email){
-      return undefined
-    }
-    else{
-      return navigate('/login')
+    if (localStorage.getItem("user")) {
+      return navigate("/");
+    } else if (email) {
+      return undefined;
+    } else {
+      return navigate("/login");
     }
   }, []);
 
@@ -94,12 +104,12 @@ const EmailOtp = () => {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Can't get OTP ?{" "}
-                  <Link
-                    to={"/login"}
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  <span
+                    onClick={resendOTP}
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500 cursor-pointer"
                   >
                     Resend OTP
-                  </Link>
+                  </span>
                 </p>
               </form>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { toast } from "react-toastify";
@@ -30,6 +30,14 @@ const Login = () => {
       }, 500);
       return navigate('/')
   };
+
+  useEffect(() => {
+    let user = localStorage.getItem('user')
+    if(user){
+      return navigate('/')
+    }
+  }, [])
+  
 
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">

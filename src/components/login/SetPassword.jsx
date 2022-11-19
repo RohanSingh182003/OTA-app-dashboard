@@ -29,8 +29,6 @@ const SetPassword = () => {
     let res = await axios.post(
       "https://six-sense-mobility-iot.vercel.app/api/users",user );
 
-    console.log(res.data)
-
     if (res.status != 200) {
       return toast.error("an error occured!");
     }
@@ -125,6 +123,10 @@ const SetPassword = () => {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account ?{" "}
                   <Link
+                  onClick={()=>{
+                    localStorage.clear("email");
+                    localStorage.clear("emailOTP");
+                  }}
                     to={"/login"}
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
