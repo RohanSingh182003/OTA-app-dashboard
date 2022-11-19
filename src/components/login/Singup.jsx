@@ -1,44 +1,34 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
-import CryptoJS from 'crypto-js'
 
 const Singup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password != confirmPassword) {
-      return toast.error("passwords doesn't matched");
-    }
-    let response = await axios.get("https://six-sense-mobility-iot.vercel.app/api/users");
-
-    let enc_password = CryptoJS.AES.encrypt(password, 'SixSenseMobility').toString(); // encrypt password
-
+    let response = await axios.get(
+      "https://six-sense-mobility-iot.vercel.app/api/users"
+    );
     let user = response.data.find((ele) => ele.email === email);
 
-    if(user){
-      return toast.warn('user already exists.')
+    if (user) {
+      return toast.warn("user already exists.");
     }
-
-    let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/users", {
-      email,
-      password:enc_password,
-    });
-
-    if (res.status != 200) {
-      return toast.error("an error occured!");
-    }
-    setTimeout(() => {
-    toast.success("account created successfully!.");
-    }, 500);
-    return navigate("/login");
+    localStorage.setItem("email", email);
+    navigate("/emailOtp");
   };
+
+  useEffect(() => {
+    let user = localStorage.getItem('user')
+    if(user){
+      return navigate('/')
+    }
+  }, [])
+  
 
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
@@ -85,46 +75,8 @@ const Singup = () => {
                     Email address
                   </label>
                 </div>
-                {/* password  */}
-                <div className="relative z-0 mb-6 w-full group">
-                  <input
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    name="floating_password"
-                    id="floating_password"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-black peer"
-                    placeholder=" "
-                    required
-                  />
-                  <label
-                    htmlFor="floating_password"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-black peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Password
-                  </label>
-                </div>
-                {/* confirm password  */}
-                <div className="relative z-0 mb-6 w-full group">
-                  <input
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    type="password"
-                    name="floating_password2"
-                    id="floating_password2"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-black peer"
-                    placeholder=" "
-                    required
-                  />
-                  <label
-                    htmlFor="floating_password2"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-black peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Confirm Password
-                  </label>
-                </div>
                 <button type="submit" className="w-full btn">
-                  Sign up
+                  Next
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account ?{" "}
