@@ -3,9 +3,16 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
-import CryptoJS from 'crypto-js'
+import CryptoJS from "crypto-js";
+import { FcGoogle } from "react-icons/fc";
+import { GoogleLogin } from "react-google-login";
 
 const Singup = () => {
+  const GoogleClientID = "1008337891871-s4c3ki7mhicd4h9i5oqjpbbtotvkpbjs.apps.googleusercontent.com"
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,26 +23,34 @@ const Singup = () => {
     if (password != confirmPassword) {
       return toast.error("passwords doesn't matched");
     }
-    let response = await axios.get("https://six-sense-mobility-iot.vercel.app/api/users");
+    let response = await axios.get(
+      "https://six-sense-mobility-iot.vercel.app/api/users"
+    );
 
-    let enc_password = CryptoJS.AES.encrypt(password, 'SixSenseMobility').toString(); // encrypt password
+    let enc_password = CryptoJS.AES.encrypt(
+      password,
+      "SixSenseMobility"
+    ).toString(); // encrypt password
 
     let user = response.data.find((ele) => ele.email === email);
 
-    if(user){
-      return toast.warn('user already exists.')
+    if (user) {
+      return toast.warn("user already exists.");
     }
 
-    let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/users", {
-      email,
-      password:enc_password,
-    });
+    let res = await axios.post(
+      "https://six-sense-mobility-iot.vercel.app/api/users",
+      {
+        email,
+        password: enc_password,
+      }
+    );
 
     if (res.status != 200) {
       return toast.error("an error occured!");
     }
     setTimeout(() => {
-    toast.success("account created successfully!.");
+      toast.success("account created successfully!.");
     }, 500);
     return navigate("/login");
   };
@@ -126,6 +141,15 @@ const Singup = () => {
                 <button type="submit" className="w-full btn">
                   Sign up
                 </button>
+                {/* login with google  */}
+                <GoogleLogin
+                className="btn w-full"
+                  clientId={GoogleClientID}
+                  buttonText="Singup with Google"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account ?{" "}
                   <Link
