@@ -1,18 +1,52 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
 
 const EmailOtp = () => {
+  const [num, setNum] = useState(Math.floor(Math.random()*1000001))
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
-      e.preventDefault()
-    if(OTP.length === 0){
-        return toast.warn('please fill the OTP first')
+    e.preventDefault();
+    if (OTP.length === 0) {
+      return toast.warn("please fill the OTP first");
     }
-    console.log(OTP);
+    if(OTP != num){
+      return toast.warn('please enter a valid OTP')
+    }
+    localStorage.setItem('emailOTP',OTP)
+    navigate('/setPassword')
   };
   const [OTP, setOTP] = useState("");
+
+  const sendEmail = async (email) => {
+    let res = await axios.post('https://six-sense-mobility-iot.vercel.app/api/otp',{
+      email , 
+      otp : num
+    })
+    if(res.status != 200){
+      return toast.error('an error occured!')
+    }
+    toast.success(`OTP send to ${email}`)
+  };
+
+  useEffect(() => {
+    let email = localStorage.getItem("email");
+    if (email) {
+      sendEmail(email);
+    }
+    if(localStorage.getItem('user')){
+      return navigate('/')
+    }
+    else if(email){
+      return undefined
+    }
+    else{
+      return navigate('/login')
+    }
+  }, []);
+
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
       <ToastContainer />

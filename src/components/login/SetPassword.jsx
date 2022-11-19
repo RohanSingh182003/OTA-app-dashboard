@@ -1,26 +1,59 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
+import CryptoJS from "crypto-js";
 
-const Singup = () => {
+const SetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let response = await axios.get(
-      "https://six-sense-mobility-iot.vercel.app/api/users"
-    );
-    let user = response.data.find((ele) => ele.email === email);
-
-    if (user) {
-      return toast.warn("user already exists.");
+    if (password != confirmPassword) {
+      return toast.error("passwords doesn't matched");
     }
-    localStorage.setItem("email", JSON.stringify(email));
-    navigate("/emailOtp");
+
+    let enc_password = CryptoJS.AES.encrypt(
+      password,
+      "SixSenseMobility"
+    ).toString(); // encrypt password
+
+    let email = localStorage.getItem("email");
+
+    let user = { email, password: enc_password }
+
+    let res = await axios.post(
+      "https://six-sense-mobility-iot.vercel.app/api/users",user );
+
+    console.log(res.data)
+
+    if (res.status != 200) {
+      return toast.error("an error occured!");
+    }
+    setTimeout(() => {
+      toast.success("account created successfully!.");
+      localStorage.clear("email");
+      localStorage.clear("emailOTP");
+    }, 500);
+    return navigate("/login");
   };
+
+  useEffect(() => {
+    let email = localStorage.getItem("email");
+    let emailOTP = localStorage.getItem("emailOTP");
+    let user = localStorage.getItem("user");
+    if (email && emailOTP) {
+      return undefined;
+    } else if (user) {
+      return navigate("/");
+    } else {
+      return navigate("/login");
+    }
+  }, []);
 
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
@@ -45,30 +78,49 @@ const Singup = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Create a new account
+                Create password
               </h1>
               <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                {/* email address  */}
+                {/* password  */}
                 <div className="relative z-0 mb-6 w-full group">
                   <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    name="floating_email"
-                    id="floating_email"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    name="floating_password"
+                    id="floating_password"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-black peer"
                     placeholder=" "
                     required
                   />
                   <label
-                    htmlFor="floating_email"
+                    htmlFor="floating_password"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-black peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    Email address
+                    Password
+                  </label>
+                </div>
+                {/* confirm password  */}
+                <div className="relative z-0 mb-6 w-full group">
+                  <input
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    type="password"
+                    name="floating_password2"
+                    id="floating_password2"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-black peer"
+                    placeholder=" "
+                    required
+                  />
+                  <label
+                    htmlFor="floating_password2"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-black peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Confirm Password
                   </label>
                 </div>
                 <button type="submit" className="w-full btn">
-                  Next
+                  Sign up
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account ?{" "}
@@ -88,4 +140,4 @@ const Singup = () => {
   );
 };
 
-export default Singup;
+export default SetPassword;
