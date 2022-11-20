@@ -3,45 +3,82 @@ import { Link, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { toast } from "react-toastify";
 import axios from "axios";
-import ToastContainer from '../common/ToastContainer'
+import ToastContainer from "../common/ToastContainer";
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  // for Google-Login
+
+  const clientId =
+    "1008337891871-eoe5t0he30o31o8tdg9de260lp88ppnl.apps.googleusercontent.com";
+
+  const [profile, setProfile] = useState([]);
+
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    };
+    gapi.load("client:auth2", initClient);
+  });
+  const onSuccess = (res) => {
+    setProfile(res.profileObj);
+    localStorage.setItem("user", JSON.stringify(res.profileObj));
+    setTimeout(() => {
+      toast.success("login successfully!");
+    }, 500);
+    navigate("/");
+  };
+  const onFailure = (err) => {
+    toast.error("an error occured! try other ways to login.");
+  };
+
+  // for email login
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let res = await axios.get("https://six-sense-mobility-iot.vercel.app/api/users");
+    let res = await axios.get(
+      "https://six-sense-mobility-iot.vercel.app/api/users"
+    );
 
-    let user = res.data.find((ele)=> ele.email === email)
+    let user = res.data.find((ele) => ele.email === email);
 
     if (!user) {
       return toast.error("user doesn't exists.");
-    } 
-    let enc_password = user.password;
-    var dec_password  = CryptoJS.AES.decrypt(enc_password, 'SixSenseMobility').toString(CryptoJS.enc.Utf8);
-    if(password != dec_password){
-      return toast.error('wrong credentials.')
     }
-    localStorage.setItem('user',JSON.stringify(user))
+    let enc_password = user.password;
+    var dec_password = CryptoJS.AES.decrypt(
+      enc_password,
+      "SixSenseMobility"
+    ).toString(CryptoJS.enc.Utf8);
+    if (password != dec_password) {
+      return toast.error("wrong credentials.");
+    }
+    localStorage.setItem("user", JSON.stringify(user));
     setTimeout(() => {
       toast.success("login successfully!");
-      }, 500);
-      return navigate('/')
+    }, 500);
+    return navigate("/");
   };
 
   useEffect(() => {
-    let user = localStorage.getItem('user')
-    if(user){
-      return navigate('/')
+    let user = localStorage.getItem("user");
+    if (user) {
+      return navigate("/");
     }
-  }, [])
-  
+  }, []);
 
   return (
     <div className="w-full h-[100vh] flex flex-col md:flex-row justify-evenly items-center">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="hidden md:block w-1/2 h-full bg-black">
         <div className="h-full w-full grid place-items-center">
           <div>
@@ -125,9 +162,19 @@ const Login = () => {
                     Forgot password?
                   </Link>
                 </div>
+                {/* sing in button  */}
                 <button type="submit" className="w-full btn">
                   Sign in
                 </button>
+                {/* google login button  */}
+                <GoogleLogin
+                  className="w-full"
+                  clientId={clientId}
+                  buttonText="Sign in with Google"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={"single_host_origin"}
+                />
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <Link

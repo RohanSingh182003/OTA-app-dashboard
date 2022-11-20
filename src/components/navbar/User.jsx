@@ -20,7 +20,7 @@ const User = () => {
       <div tabIndex={0} className="avatar">
       </div>
         <div className="w-8 rounded-full">
-          <p className="-mt-3 text-xl">{user?.email.slice(0,2)}</p>
+          <p className="-mt-3 text-xl uppercase">{user?.email.slice(0,2)}</p>
         </div>
       </div>
       <ul
