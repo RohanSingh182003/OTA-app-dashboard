@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddDeviceModal from "./AddDeviceModal";
 import DeviceItem from "./DeviceItem";
 import ToastContainer from '../common/ToastContainer'
+import { toast } from "react-toastify";
 
 const Device = () => {
     let devices = [
@@ -16,6 +17,10 @@ const Device = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        if(prod.length === 0){
+            return toast.error('please enter device name first.')
+        }
+        toast.success('device added successfully!')
         setDevice([...device,prod])
         setProd('')
     }
