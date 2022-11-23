@@ -11,8 +11,9 @@ const Table = () => {
   const [key, setKey] = useState(null);
 
   const getData = async () => {
-    let response = await axios.get("https://six-sense-mobility-iot.vercel.app/api/products");
-    setData(response.data);
+    let user = JSON.parse(localStorage.getItem('user'))
+    let response = await axios.get(`http://localhost:3000/api/products/${user.id}`);
+    setData(response.data.product);
   };
 
   // function for add data
@@ -20,22 +21,25 @@ const Table = () => {
     prod_name,
     ip_address,
     mac_address,
+    status,
     func,
     version,
     file
   ) => {
+    let user = JSON.parse(localStorage.getItem('user'))
     let myData = {
+      device_type : user.item,
       prod_name,
       ip_address,
       mac_address,
+      status,
       function: func,
       version,
       last_updated: new Date(),
       file
     };
     try {
-      let res = await axios.post("https://six-sense-mobility-iot.vercel.app/api/products", myData);
-      console.log(res)
+      let res = await axios.post(`http://localhost:3000/api/products/device/${user.id}`, {product:myData});
       if (res.status === 200) {
         toast.success("product added successfully!");
         setKey(Math.random());
@@ -76,6 +80,7 @@ const Table = () => {
               <th>Name</th>
               <th>IP Address</th>
               <th>MAC Address</th>
+              <th>Status</th>
               <th>Fuction</th>
               <th>Version</th>
               <th>Last Updated</th>

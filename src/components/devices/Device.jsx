@@ -57,7 +57,7 @@ const Device = () => {
       `http://localhost:3000/api/products`
     );
     let device = res.data.find(ele => ele.email === JSON.parse(localStorage.getItem("user")).email)
-    localStorage.setItem('device_type',JSON.stringify({item,id:device._id}))
+    localStorage.setItem('user',JSON.stringify({item,id:device._id,email:device.email}))
     navigate('/')
   }
 

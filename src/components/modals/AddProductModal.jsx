@@ -7,6 +7,7 @@ const Modal = ({ handleSubmit }) => {
   const [mac, setMac] = useState("");
   const [func, setFunc] = useState("");
   const [version, setVersion] = useState("");
+  const [status, setStatus] = useState("")
   const [selectedFile, setSelectedFile] = useState(null);
 
   const changeHandler = (event) => {
@@ -74,7 +75,7 @@ const Modal = ({ handleSubmit }) => {
                 MAC Address
               </label>
             </div>
-            <div className="grid md:grid-cols-2 md:gap-6">
+            <div className="grid md:grid-cols-3 md:gap-6">
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   onChange={(e) => setFunc(e.target.value)}
@@ -91,6 +92,24 @@ const Modal = ({ handleSubmit }) => {
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Function
+                </label>
+              </div>
+              <div className="relative z-0 mb-6 w-full group">
+                <input
+                  onChange={(e) => setStatus(e.target.value)}
+                  value={status}
+                  type="text"
+                  name="floating_first_name"
+                  id="floating_first_name"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  htmlFor="floating_first_name"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Status
                 </label>
               </div>
               <div className="relative z-0 mb-6 w-full group">
@@ -126,17 +145,18 @@ const Modal = ({ handleSubmit }) => {
             mac.length > 0 &&
             func.length > 0 &&
             version.length > 0 && 
+            status.length > 0 && 
             selectedFile != null ? (
               <label
                 onClick={() => {
-                  handleSubmit(name, ip, mac, func, version, selectedFile);
+                  handleSubmit(name, ip, mac, status, func, version, selectedFile);
                   setTimeout(() => {
                     setName("");
                     setIp("");
                     setMac("");
                     setFunc("");
                     setVersion("");
-                    selectedFile(null);
+                    setStatus("");
                   }, 1000);
                 }}
                 htmlFor="my-modal"

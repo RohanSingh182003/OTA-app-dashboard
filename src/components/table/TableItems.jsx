@@ -27,7 +27,7 @@ const TableItems = (props) => {
         file
       };
       let res = await axios.put(
-        `https://six-sense-mobility-iot.vercel.app/api/products/${props.id}`,
+        `http://localhost:3000/api/products/device/${props.id}`,
         myData
       );
       if (res.status === 200) {
@@ -47,7 +47,7 @@ const TableItems = (props) => {
         return null;
       }
       let res = await axios.delete(
-        `https://six-sense-mobility-iot.vercel.app/api/products/${id}`
+        `http://localhost:3000/api/products/device/${id}`
       );
       if (res.status === 200) {
         toast.success("product deleted successfully!");
@@ -72,6 +72,7 @@ const TableItems = (props) => {
         <td>{props.item.prod_name}</td>
         <td>{props.item.ip_address}</td>
         <td>{props.item.mac_address}</td>
+        <td>{props.item.status}</td>
         <td>{props.item.function}</td>
         <td>{Number.parseFloat(props.item.version)}</td>
         <td>{props.item.last_updated}</td>
