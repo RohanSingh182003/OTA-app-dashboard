@@ -32,7 +32,7 @@ const Login = () => {
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);
-    navigate("/");
+    navigate("/devices");
   };
   const onFailure = (err) => {
     toast.error("an error occured! try other ways to login.");
@@ -66,7 +66,7 @@ const Login = () => {
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);
-    return navigate("/");
+    return navigate("/devices");
   };
 
   useEffect(() => {

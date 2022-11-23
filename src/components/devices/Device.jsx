@@ -1,45 +1,96 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddDeviceModal from "./AddDeviceModal";
 import DeviceItem from "./DeviceItem";
-import ToastContainer from '../common/ToastContainer'
+import ToastContainer from "../common/ToastContainer";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Device = () => {
-    let devices = [
-        'buzzer',
-        'horn',
-        'engine',
-        'light'
-    ]
+  const navigate = useNavigate()
+  const [device, setDevice] = useState([]);
+  const [prod, setProd] = useState("");
+  const [key, setKey] = useState(null)
 
-    const [device, setDevice] = useState(devices)
-    const [prod, setProd] = useState('')
+  const getData = async () => {
+      let res = await axios.get(
+        `http://localhost:3000/api/products`
+      );
+      let device = res.data.find(ele => ele.email === JSON.parse(localStorage.getItem("user")).email)
+      setDevice(device.devices);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(prod.length === 0){
-            return toast.error('please enter device name first.')
-        }
-        toast.success('device added successfully!')
-        setDevice([...device,prod])
-        setProd('')
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let res = await axios.get(
+      `http://localhost:3000/api/products`
+    );
+    let device = res.data.find(ele => ele.email === JSON.parse(localStorage.getItem("user")).email)
+    if (prod.length === 0) {
+      return toast.error("please enter device name first.");
     }
+    let response = await axios.post(`http://localhost:3000/api/products/deviceType/${device._id}`,
+    {devices : prod}
+    )
+    if(response.status === 200){
+      toast.success("device added successfully!");
+      setProd("");
+      setKey(Math.random())
+    } else {
+      toast.warn('product already exists.')
+    }
+  };
+
+  const handleDelete = async (item) => {
+    let res = await axios.get(
+      `http://localhost:3000/api/products`
+    );
+    let device = res.data.find(ele => ele.email === JSON.parse(localStorage.getItem("user")).email)
+    axios.delete(`http://localhost:3000/api/products/deviceType/${device._id}/${item}`).then(()=>{
+      toast.success("device deleted successfully!");
+      setKey(Math.random())
+    })
+  }
+
+  const handleRedirect = async (item) => {
+    let res = await axios.get(
+      `http://localhost:3000/api/products`
+    );
+    let device = res.data.find(ele => ele.email === JSON.parse(localStorage.getItem("user")).email)
+    localStorage.setItem('device_type',JSON.stringify({item,id:device._id}))
+    navigate('/')
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [key]);
+
   return (
     <>
-    <ToastContainer/>
-      <AddDeviceModal handleSubmit={handleSubmit} prod={prod} setProd={setProd} />
+      <ToastContainer />
+      <AddDeviceModal
+        handleSubmit={handleSubmit}
+        prod={prod}
+        setProd={setProd}
+      />
       <div className="bg-gradient-to-br from-white via-gray-300 to-white min-h-[100vh]">
         <h2 className="py-4 text-center text-3xl font-semibold">
           Select Device
         </h2>
         <div className="grid place-items-end px-4 my-4">
-        <label htmlFor="my-modal" className="btn">
-        + Add device
+          <label htmlFor="my-modal" className="btn">
+            + Add device
           </label>
         </div>
         {/* list of devices */}
         <div className="flex flex-col md:flex-row flex-wrap md:px-8 md:space-x-4 space-y-4">
-        {device.map((item , index )=> <DeviceItem item={item} index={index} />)}
+          {device.map((item, index) => (
+            <DeviceItem item={item} index={index} handleDelete={handleDelete} handleRedirect={handleRedirect} />
+          ))}
         </div>
       </div>
     </>
