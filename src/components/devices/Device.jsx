@@ -104,9 +104,13 @@ const Device = () => {
         </div>
         {/* list of devices */}
         <div className="flex flex-col md:flex-row flex-wrap md:px-8 md:space-x-4 space-y-4">
-          {device.map((item, index) => (
+          {device.length > 0 ? device.map((item, index) => (
             <DeviceItem item={item} index={index} handleDelete={handleDelete} handleRedirect={handleRedirect} />
-          ))}
+          )) : 
+          <div className="w-full grid place-items-center">
+          <p className="text-2xl">No devices found , Let's add one...</p>
+          </div>
+          }
         </div>
       </div>
     </>
