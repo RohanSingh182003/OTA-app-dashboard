@@ -51,7 +51,9 @@ const Table = () => {
       );
       if (res.status === 200) {
         toast.success("product added successfully!");
-        setKey(Math.random());
+        setInterval(() => {
+          setKey(Math.random());
+        }, 500);
       } else {
         toast.error("An error occured!");
       }
@@ -61,19 +63,8 @@ const Table = () => {
     }
   };
 
-  const getLoadingStatus = () => {
-    setTimeout(() => {
-        try {
-        document.getElementById('loading').innerHTML = "No device found!"
-      } catch (error) {
-        console.log(error)
-      }
-      }, 30000);
-  }
-
   useEffect(() => {
     getData();
-    getLoadingStatus()
   }, []);
 
   // render component after adding new data

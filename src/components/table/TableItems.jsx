@@ -75,7 +75,7 @@ const TableItems = (props) => {
         <td>{props.item.status}</td>
         <td>{props.item.function}</td>
         <td>{Number.parseFloat(props.item.version)}</td>
-        <td>{props.item.last_updated}</td>
+        <td>{props.item.last_updated.slice(0,10)}</td>
         <td>
           <div className="tooltip" data-tip="Update">
             <label htmlFor={`my-modal-${props.index + 1}`}>

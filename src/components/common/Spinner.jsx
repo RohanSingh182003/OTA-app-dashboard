@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const Spinner = () => {
+  const getLoadingStatus = () => {
+    setTimeout(() => {
+        try {
+        document.getElementById('loading').innerHTML = "No device found!"
+      } catch (error) {
+        console.log(error)
+      }
+      }, 15000);
+  }
+  useEffect(() => {
+    getLoadingStatus()
+  }, [])
+  
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden">
             <p className="text-center text-2xl text-blue-700" id="loading">
               <div role="status">
                 <svg

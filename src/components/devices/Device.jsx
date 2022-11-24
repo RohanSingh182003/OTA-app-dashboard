@@ -36,7 +36,9 @@ const Device = () => {
     if(response.status === 200){
       toast.success("device added successfully!");
       setProd("");
-      setKey(Math.random())
+      setInterval(() => {
+        setKey(Math.random())
+      }, 500);
     } else {
       toast.warn('product already exists.')
     }
