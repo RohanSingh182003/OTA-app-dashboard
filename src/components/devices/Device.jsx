@@ -29,6 +29,7 @@ const Device = () => {
     if (prod.length === 0) {
       return toast.error("please enter device name first.");
     }
+    if(device){
     let response = await axios.post(`http://localhost:3000/api/products/deviceType/${device._id}`,
     {devices : prod}
     )
@@ -39,9 +40,23 @@ const Device = () => {
     } else {
       toast.warn('product already exists.')
     }
-  };
+  }
+}
+  // else{
+  //   let email = JSON.parse(localStorage.getItem("user")).email
+  //   let new_document = {
+  //     email,
+  //     isAdmin : false,
+  //     devices : [prod],
+  //     product : []
+  //   }
+  //   axios.post('http://localhost:3000/api/products',new_document).then(()=> setKey(Math.random()))
+  // }
+  // };
 
   const handleDelete = async (item) => {
+    let ans = confirm('are you confirm to delete this device?')
+    if(ans!= true) return undefined
     let res = await axios.get(
       `http://localhost:3000/api/products`
     );

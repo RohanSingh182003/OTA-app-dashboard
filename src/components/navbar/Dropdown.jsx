@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Dropdown = () => {
   return (
@@ -12,7 +13,7 @@ const Dropdown = () => {
         className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-gray-100 rounded-box w-52"
       >
         <li>
-          <a>Homepage</a>
+        <Link to={'/devices'}> Change device</Link>
         </li>
         <li>
           <a>Services</a>
