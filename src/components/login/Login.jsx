@@ -13,7 +13,7 @@ const Login = () => {
   // for Google-Login
 
   const clientId =
-    "1008337891871-2gv10molbqtov3grukis2rk1ehbi11m4.apps.googleusercontent.com";
+    "1008337891871-runhd16jmeu8m96ll172ot6jmkelkmj1.apps.googleusercontent.com";
 
   const [profile, setProfile] = useState([]);
 
