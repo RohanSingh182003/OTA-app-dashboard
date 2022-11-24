@@ -40,19 +40,17 @@ const Device = () => {
     } else {
       toast.warn('product already exists.')
     }
-  }
+} else{
+    let email = JSON.parse(localStorage.getItem("user")).email
+    let new_document = {
+      email,
+      isAdmin : false,
+      devices : [prod],
+      product : []
+    }
+    axios.post('http://localhost:3000/api/products',new_document).then(()=> setKey(Math.random()))
 }
-  // else{
-  //   let email = JSON.parse(localStorage.getItem("user")).email
-  //   let new_document = {
-  //     email,
-  //     isAdmin : false,
-  //     devices : [prod],
-  //     product : []
-  //   }
-  //   axios.post('http://localhost:3000/api/products',new_document).then(()=> setKey(Math.random()))
-  // }
-  // };
+  };
 
   const handleDelete = async (item) => {
     let ans = confirm('are you confirm to delete this device?')
@@ -62,6 +60,7 @@ const Device = () => {
     );
     let device = res.data.find(ele => ele.email === JSON.parse(localStorage.getItem("user")).email)
     axios.delete(`http://localhost:3000/api/products/deviceType/${device._id}/${item}`).then(()=>{
+      axios.delete(`http://localhost:3000/api/products/device/${device._id}/${item}`)
       toast.success("device deleted successfully!");
       setKey(Math.random())
     })
