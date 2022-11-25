@@ -1,5 +1,5 @@
 import React from "react";
-import Dropdown from "./Dropdown";
+import Dropdown from "./Sidebar";
 import Search from "./Search";
 import User from "./User";
 
