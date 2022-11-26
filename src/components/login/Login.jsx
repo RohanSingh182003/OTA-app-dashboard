@@ -32,7 +32,7 @@ const Login = () => {
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);
-    navigate("/devices");
+    navigate("/");
   };
   const onFailure = (err) => {
     toast.error("an error occured! try other ways to login.");
@@ -55,7 +55,7 @@ const Login = () => {
       return toast.error("user doesn't exists.");
     }
     let enc_password = user.password;
-    var dec_password = CryptoJS.AES.decrypt(
+    let dec_password = CryptoJS.AES.decrypt(
       enc_password,
       "SixSenseMobility"
     ).toString(CryptoJS.enc.Utf8);
@@ -66,7 +66,7 @@ const Login = () => {
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);
-    return navigate("/devices");
+    return navigate("/");
   };
 
   useEffect(() => {

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AppContext from '../../context/AppContext'
 
 const User = () => {
   const navigate = useNavigate();
+  const {state ,dispatch} = useContext(AppContext)
   const handleLogout = () => {
     setTimeout(() => {
       toast.success("logout successfully!");
@@ -12,15 +14,14 @@ const User = () => {
     localStorage.removeItem("user");
     navigate("/login");
   };
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
   
   return (
     <button className="btn btn-ghost btn-circle dropdown dropdown-end">
-      <div className="tooltip tooltip-left" data-tip={user?.email}>
+      <div className="tooltip tooltip-left" data-tip={state.email}>
       <div tabIndex={0} className="avatar">
       </div>
         <div className="w-8 rounded-full">
-          <p className="-mt-3 text-xl uppercase">{user?.email.slice(0,2)}</p>
+          <p className="-mt-3 text-xl uppercase">{state.email && state.email.slice(0,2)}</p>
         </div>
       </div>
       <ul

@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import AppState from "./context/AppState";
 import "./index.css";
-import { ProSidebarProvider } from "react-pro-sidebar";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ProSidebarProvider>
+  <AppState>
     <App />
-  </ProSidebarProvider>
+  </AppState>
 );
