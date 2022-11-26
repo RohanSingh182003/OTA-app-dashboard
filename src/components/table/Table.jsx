@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TableItems from "./TableItems";
 import Modal from "../modals/AddProductModal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Spinner from "../common/Spinner";
+import AppContext from '../../context/AppContext'
 
 const Table = () => {
+  const {state ,dispatch} = useContext(AppContext)
   // state varables
   const [id, setId] = useState(null);
   const [data, setData] = useState(null);
@@ -64,12 +66,12 @@ const Table = () => {
   };
 
   useEffect(() => {
-    getData();
+    // getData();
   }, []);
 
   // render component after adding new data
   useEffect(() => {
-    getData();
+    // getData();
   }, [key]);
 
   return (
@@ -83,10 +85,9 @@ const Table = () => {
       </div>
       <div className="overflow-x-auto w-full">
         {/* table starts here */}
-        {data != null && data.length != 0 ? (
           <table className="table w-full">
             {/* <!-- head --> */}
-            <thead>
+            <thead className="-z-10">
               <tr>
                 <th>SL_NO</th>
                 <th>Name</th>
@@ -102,7 +103,7 @@ const Table = () => {
             </thead>
             <tbody>
               {/* <!-- row --> */}
-              {data.map((item, index) => (
+              { state.product && state.product.length > 0 ? state.product.map((item, index) => (
                 <TableItems
                   key={index}
                   item={item}
@@ -111,12 +112,11 @@ const Table = () => {
                   setId={setId}
                   id={id}
                 />
-              ))}
+              )) : 
+              <Spinner/>
+              }
             </tbody>
           </table>
-        ) : (
-          <Spinner/>
-        )}
       </div>
     </>
   );

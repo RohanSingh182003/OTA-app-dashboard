@@ -57,8 +57,7 @@ const Home = () => {
         <h2 className="text-xl md:text-3xl my-4 p-2 font-semibold text-blue-700">
           OTA Update Management System
         </h2>
-        <p>{state._id}</p>
-        {/* <Table /> */}
+        <Table />
       </div>
     </>
   );
