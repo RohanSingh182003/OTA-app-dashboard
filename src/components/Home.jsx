@@ -54,7 +54,7 @@ const Home = () => {
       <ToastContainer />
       <Navbar />
       <div className="grid place-items-center xl:px-20">
-        <h2 className="text-xl md:text-3xl my-4 p-2 font-semibold text-blue-700">
+        <h2 className="text-xl md:text-3xl my-4 p-2 font-semibold text-primary">
           OTA Update Management System
         </h2>
         <Table />

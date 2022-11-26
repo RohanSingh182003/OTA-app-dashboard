@@ -1,7 +1,10 @@
 const Reducer = (state, action) => {
   switch (action.type) {
     case "setDevice":
-      return action.payload.user
+      return {
+        currentProduct : action.payload.user,
+        currentDevice : state.currentDevice
+      }
       break;
 
     default:

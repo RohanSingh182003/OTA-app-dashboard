@@ -33,7 +33,7 @@ const Dropdown = () => {
         <div className="container">
           <h3 className="text-primary text-center py-4 border-b backdrop-blur-sm">Select device</h3>
           <div className="form-control">
-            {state.devices && state.devices.map((item)=> {
+            {state.currentProduct.devices && state.currentProduct.devices.map((item)=> {
               return <SidebarItems title={item}/>
             })}
           </div>

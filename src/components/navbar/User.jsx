@@ -17,11 +17,11 @@ const User = () => {
   
   return (
     <button className="btn btn-ghost btn-circle dropdown dropdown-end">
-      <div className="tooltip tooltip-left" data-tip={state.email}>
+      <div className="tooltip tooltip-left" data-tip={state.currentProduct.email}>
       <div tabIndex={0} className="avatar">
       </div>
         <div className="w-8 rounded-full">
-          <p className="-mt-3 text-xl uppercase">{state.email && state.email.slice(0,2)}</p>
+          <p className="-mt-3 text-xl uppercase">{state.currentProduct.email && state.currentProduct.email.slice(0,2)}</p>
         </div>
       </div>
       <ul

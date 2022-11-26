@@ -79,7 +79,7 @@ const Table = () => {
       <Modal handleSubmit={handleSubmit} />
       {/* add products and open modal button */}
       <div className="grid w-full place-items-end">
-        <label htmlFor="my-modal" className="btn btn-ghost text-blue-500">
+        <label htmlFor="my-modal" className="btn btn-ghost text-primary">
           + Add Products
         </label>
       </div>
@@ -103,7 +103,7 @@ const Table = () => {
             </thead>
             <tbody>
               {/* <!-- row --> */}
-              { state.product && state.product.length > 0 ? state.product.map((item, index) => (
+              { state.currentProduct.product && state.currentProduct.product.length > 0 ? state.currentProduct.product.map((item, index) => (
                 <TableItems
                   key={index}
                   item={item}
