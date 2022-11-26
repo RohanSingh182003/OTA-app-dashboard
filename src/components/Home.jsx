@@ -18,7 +18,7 @@ const Home = () => {
 
   const setUser = (user) => {
     dispatch({
-      type: "setDevice",
+      type: "setProduct",
       payload : {user}
     })
   }
@@ -47,7 +47,11 @@ const Home = () => {
   useEffect(() => {
     getData();
     isLogin();
+    console.log(state)
   }, []);
+
+  useEffect(() => {}, [state.currentDevice]) // to render component whenever currentDevice changed.
+  
 
   return (
     <>

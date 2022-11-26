@@ -13,17 +13,6 @@ const Table = () => {
   const [data, setData] = useState(null);
   const [key, setKey] = useState(null);
 
-  const getData = async () => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    let response = await axios.get(
-      `http://localhost:3000/api/products/${user.id}`
-    );
-    let filter_response = response.data.product.filter(
-      (ele) => ele.device_type === user.item
-    );
-    setData(filter_response);
-  };
-
   // function for add data
   const handleSubmit = async (
     prod_name,
@@ -65,9 +54,9 @@ const Table = () => {
     }
   };
 
-  useEffect(() => {
-    // getData();
-  }, []);
+  const filterProducts = (products) => {
+    return products.filter((item) => item.device_type.includes(state.currentDevice));
+  }
 
   // render component after adding new data
   useEffect(() => {
@@ -103,7 +92,7 @@ const Table = () => {
             </thead>
             <tbody>
               {/* <!-- row --> */}
-              { state.currentProduct.product && state.currentProduct.product.length > 0 ? state.currentProduct.product.map((item, index) => (
+              { state.currentProduct.product && state.currentProduct.product.length > 0 ? filterProducts(state.currentProduct.product).map((item, index) => (
                 <TableItems
                   key={index}
                   item={item}
