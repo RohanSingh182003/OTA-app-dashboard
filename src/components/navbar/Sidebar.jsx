@@ -89,13 +89,13 @@ const Dropdown = () => {
       </label>
       {/* sidebar starts here  */}
       <section
-        className={`absolute -top-2 -left-2 bg-gray-200 w-72 h-[100vh] border py-2 px-6 transition-transform ${toggle} z-20`}
+        className={`absolute -top-2 -left-2 backdrop-blur-md w-72 h-[100vh] border py-2 px-6 transition-transform ${toggle} z-20`}
       >
         <AiOutlineClose
           onClick={handleToggle}
           className="absolute right-4 md:right-2 text-2xl text-gray-400 rounded-full hover:bg-gray-300 cursor-pointer"
         />
-        <h2 className="text-center text-2xl py-3 text-primary border-gray-300 border-b-2 font-semibold">
+        <h2 className="text-center text-2xl py-3 text-primary font-bold">
           Control Center
         </h2>
         <label
@@ -105,11 +105,11 @@ const Dropdown = () => {
           + Add Device
         </label>
         <div className="container">
-          <h3 className="text-primary text-center py-4 border-b backdrop-blur-sm">
+          <h3 className="text-primary text-center py-4 border-b">
             Select device
           </h3>
-          <div className="form-control border border-gray-300 rounded-md">
-            {state.currentProduct.devices &&
+          <div className={`form-control backdrop-blur-2xl ${state.currentProduct.devices && state.currentProduct.devices.length > 0 ? 'border border-gray-300 rounded-md' : ''}`}>
+            {state.currentProduct.devices && state.currentProduct.devices.length > 0 ?
               state.currentProduct.devices.map((item) => {
                 return (
                   <SidebarItems
@@ -118,7 +118,10 @@ const Dropdown = () => {
                     title={item}
                   />
                 );
-              })}
+              }) 
+            :
+            <p className="text-primary text-xl text-center font-semibold">No devices, let's add one.</p>
+            }
           </div>
         </div>
       </section>

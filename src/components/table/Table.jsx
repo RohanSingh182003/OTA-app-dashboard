@@ -98,7 +98,9 @@ const Table = () => {
                 )
               )
             ) : (
+              <div className="w-[100vw] grid place-items-center">
               <Spinner />
+              </div>
             )}
           </tbody>
         </table>

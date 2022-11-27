@@ -11,7 +11,6 @@ import SetPassword from "./components/login/SetPassword";
 import ForgotPassword from "./components/login/ForgotPassword";
 import ForgotOtp from "./components/login/ForgotOtp";
 import RecoverPassword from "./components/login/RecoverPassword";
-import Device from "./components/devices/Device";
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
       <Route exact path={'/recoverPassword'} element={<RecoverPassword />}  />
       <Route exact path={'/emailOtp'} element={<EmailOtp />}  />
       <Route exact path={'/setPassword'} element={<SetPassword />}  />
-      <Route exact path={'/devices'} element={<Device />}  />
       <Route exact path={'/'} element={<Home/>}  />
     </Routes>
     </BrowserRouter>
