@@ -23,9 +23,8 @@ const Table = () => {
     version,
     file
   ) => {
-    let user = JSON.parse(localStorage.getItem("user"));
     let myData = {
-      device_type: user.item,
+      device_type: state.currentDevice,
       prod_name,
       ip_address,
       mac_address,
@@ -37,7 +36,7 @@ const Table = () => {
     };
     try {
       let res = await axios.post(
-        `http://localhost:3000/api/products/device/${user.id}`,
+        `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
         { product: myData }
       );
       if (res.status === 200) {
