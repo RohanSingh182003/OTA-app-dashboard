@@ -4,10 +4,10 @@ import Modal from "../modals/AddProductModal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Spinner from "../common/Spinner";
-import AppContext from '../../context/AppContext'
+import AppContext from "../../context/AppContext";
 
 const Table = () => {
-  const {state ,dispatch} = useContext(AppContext)
+  const { state, dispatch } = useContext(AppContext);
 
   // function for add data
   const handleSubmit = async (
@@ -38,8 +38,7 @@ const Table = () => {
       if (res.status === 200) {
         toast.success("product added successfully!");
         dispatch({ type: "setKey" });
-        setInterval(() => {
-        }, 500);
+        setInterval(() => {}, 500);
       } else {
         toast.error("An error occured!");
       }
@@ -50,8 +49,10 @@ const Table = () => {
   };
 
   const filterProducts = (products) => {
-    return products.filter((item) => item.device_type.includes(state.currentDevice));
-  }
+    return products.filter((item) =>
+      item.device_type === state.currentDevice
+    );
+  };
 
   return (
     <>
@@ -64,36 +65,43 @@ const Table = () => {
       </div>
       <div className="overflow-x-auto w-full">
         {/* table starts here */}
-          <table className="table w-full">
-            {/* <!-- head --> */}
-            <thead className="-z-10">
-              <tr>
-                <th>SL_NO</th>
-                <th>Name</th>
-                <th>IP Address</th>
-                <th>MAC Address</th>
-                <th>Status</th>
-                <th>Fuction</th>
-                <th>Version</th>
-                <th>Last Updated</th>
-                <th>Update</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* <!-- row --> */}
-              { state.currentProduct.product && state.currentProduct.product.length > 0 ? filterProducts(state.currentProduct.product).map((item, index) => (
-                <TableItems
-                  key={index}
-                  item={item}
-                  index={index}
-                  id={item._id}
-                />
-              )) : 
-              <Spinner/>
-              }
-            </tbody>
-          </table>
+        <table className="table w-full">
+          {/* <!-- head --> */}
+          <thead className="-z-10">
+            <tr>
+              <th>SL_NO</th>
+              <th>Name</th>
+              <th>IP Address</th>
+              <th>MAC Address</th>
+              <th>Status</th>
+              <th>Fuction</th>
+              <th>Version</th>
+              <th>Last Updated</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* <!-- row --> */}
+            {state.currentProduct.product &&
+            state.currentProduct.product.length > 0 ? (
+              filterProducts(state.currentProduct.product).map(
+                (item, index) => (
+                  <TableItems
+                    key={index}
+                    item={item}
+                    index={index}
+                    id={item._id}
+                    mac={item.mac_address}
+                    version={item.version}
+                  />
+                )
+              )
+            ) : (
+              <Spinner />
+            )}
+          </tbody>
+        </table>
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AddDeviceModal from "./AddDeviceModal";
+// import AddDeviceModal from "./AddDeviceModal";
 import DeviceItem from "./DeviceItem";
 import ToastContainer from "../common/ToastContainer";
 import { toast } from "react-toastify";

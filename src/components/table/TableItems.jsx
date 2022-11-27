@@ -58,8 +58,8 @@ const TableItems = (props) => {
       <UpdateProductModal
         index={props.index + 1}
         handleUpdate={handleUpdate}
-        mac_address={props.item.mac_address}
-        current_version={Number.parseFloat(props.item.version)}
+        mac_address={props.mac}
+        current_version={Number.parseFloat(props.version)}
       />
       <tr className="hover">
         <th>{props.index + 1}</th>
