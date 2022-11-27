@@ -3,15 +3,21 @@ const Reducer = (state, action) => {
     case "setProduct":
       return {
         currentProduct : action.payload.user,
-        currentDevice : state.currentDevice
+        currentDevice : state.currentDevice,
+        key : state.key
       }
-      break;
     case "setDevice":
         return {
           currentProduct : state.currentProduct,
-          currentDevice : action.payload.device
+          currentDevice : action.payload.device,
+          key : state.key
         }
-        break;
+    case "setKey":
+      return {
+        currentProduct : state.currentProduct,
+        currentDevice : state.currentDevice,
+        key : Math.random()
+      }
 
     default:
       break;

@@ -5,7 +5,8 @@ import Reducer from './Reducer'
 const AppState = (props) => {
     const initialState = {
       currentProduct : {},
-      currentDevice : ''
+      currentDevice : '',
+      key : 0
     }
     const reducer = Reducer
     const [state, dispatch] = useReducer(reducer, initialState)

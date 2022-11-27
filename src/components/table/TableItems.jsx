@@ -1,22 +1,16 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BsFillPenFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import UpdateProductModal from "../modals/UpdateProductModal";
+import AppContext from '../../context/AppContext'
 
 const TableItems = (props) => {
-  const handleUpdate = async (
-    mac_address,
-    version,
-    file
-  ) => {
+  const { dispatch } = useContext(AppContext);
+  const handleUpdate = async (mac_address, version, file) => {
     try {
-      if (
-        mac_address.length === 0 ||
-        version.length === 0 || 
-        file === null
-      ) {
+      if (mac_address.length === 0 || version.length === 0 || file === null) {
         toast.warn("please fill all fields");
         return null;
       }
@@ -24,7 +18,7 @@ const TableItems = (props) => {
         mac_address,
         version,
         last_updated: new Date(),
-        file
+        file,
       };
       let res = await axios.put(
         `http://localhost:3000/api/products/device/${props.id}`,
@@ -32,7 +26,7 @@ const TableItems = (props) => {
       );
       if (res.status === 200) {
         toast.success("details updated successfully!");
-        props.setKey(Math.random());
+        dispatch({ type: "setKey" });
       } else {
         toast.error("An error occured!");
       }
@@ -40,18 +34,18 @@ const TableItems = (props) => {
       toast.error("An error occured!");
     }
   };
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
       let ans = confirm("Are you sure?");
       if (ans != true) {
         return null;
       }
       let res = await axios.delete(
-        `http://localhost:3000/api/products/device/${id}`
+        `http://localhost:3000/api/products/device/${props.id}`
       );
       if (res.status === 200) {
         toast.success("product deleted successfully!");
-        props.setKey(Math.random());
+        dispatch({ type: "setKey" });
       } else {
         toast.error("An error occured!");
       }
@@ -75,7 +69,7 @@ const TableItems = (props) => {
         <td>{props.item.status}</td>
         <td>{props.item.function}</td>
         <td>{Number.parseFloat(props.item.version)}</td>
-        <td>{props.item.last_updated.slice(0,10)}</td>
+        <td>{props.item.last_updated.slice(0, 10)}</td>
         <td>
           <div className="tooltip" data-tip="Update">
             <label htmlFor={`my-modal-${props.index + 1}`}>
@@ -92,7 +86,7 @@ const TableItems = (props) => {
           <div className="tooltip" data-tip="Delete">
             <AiFillDelete
               onClick={() => {
-                handleDelete(props.item._id);
+                handleDelete();
               }}
               className="text-red-600 w-10 h-6 cursor-pointer"
             />

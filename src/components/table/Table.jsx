@@ -37,6 +37,7 @@ const Table = () => {
       );
       if (res.status === 200) {
         toast.success("product added successfully!");
+        dispatch({ type: "setKey" });
         setInterval(() => {
         }, 500);
       } else {
@@ -86,6 +87,7 @@ const Table = () => {
                   key={index}
                   item={item}
                   index={index}
+                  id={item._id}
                 />
               )) : 
               <Spinner/>

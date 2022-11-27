@@ -47,11 +47,11 @@ const Home = () => {
   useEffect(() => {
     getData();
     isLogin();
-    console.log(state)
   }, []);
 
   useEffect(() => {}, [state.currentDevice]) // to render component whenever currentDevice changed.
   
+  useEffect(() => { getData() }, [state.key]) // to render components whenever make api calls and get current data.
 
   return (
     <>
