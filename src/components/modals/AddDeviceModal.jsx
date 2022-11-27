@@ -23,8 +23,8 @@ const AddDeviceModal = ({handleSubmit , prod , setProd}) => {
               </label>
             </div>
           <button type="submit" className="w-full">
-            <label htmlFor="add-device-modal" className="btn w-full">
-              Add
+            <label htmlFor="add-device-modal" className="btn btn-ghost text-primary w-full">
+              Add Device
             </label>
           </button>
         </form>

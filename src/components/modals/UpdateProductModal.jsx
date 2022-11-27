@@ -59,7 +59,7 @@ const UpdateProductModal = ({
                   setVersion('')
                 }}
                 htmlFor={`my-modal-${index}`}
-                className="btn btn-ghost text-blue-700"
+                className="btn btn-ghost text-primary"
               >
                 Update Product
               </label>

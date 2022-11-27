@@ -2,7 +2,6 @@ import React from 'react'
 import { RiDeleteBackFill } from 'react-icons/ri'
 
 const SidebarItems = (props) => {
-  console.log(props.id)
   return (
     <div className='hover:bg-gray-300 flex items-center'>
     <label onClick={()=> props.setDevice(props.title)} className="label cursor-pointer px-6 py-4 w-5/6">

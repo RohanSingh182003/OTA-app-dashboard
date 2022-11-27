@@ -89,7 +89,7 @@ const Dropdown = () => {
       </label>
       {/* sidebar starts here  */}
       <section
-        className={`absolute -top-2 -left-2 backdrop-blur-md w-72 h-[100vh] border py-2 px-6 transition-transform ${toggle} z-20`}
+        className={`absolute -top-2 -left-2 backdrop-blur-md shadow-2xl w-72 h-[100vh] border py-2 px-6 transition-transform ${toggle} z-20`}
       >
         <AiOutlineClose
           onClick={handleToggle}

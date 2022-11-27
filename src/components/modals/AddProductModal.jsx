@@ -160,14 +160,14 @@ const Modal = ({ handleSubmit }) => {
                   }, 1000);
                 }}
                 htmlFor="my-modal"
-                className="btn btn-ghost text-blue-700"
+                className="btn btn-ghost text-primary"
               >
                 Add Product
               </label>
             ) : (
               <label
                 onClick={() => toast.warn("please fill all fields.")}
-                className="btn btn-ghost text-blue-700"
+                className="btn btn-ghost text-primary"
               >
                 Add Product
               </label>
