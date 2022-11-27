@@ -8,10 +8,6 @@ import AppContext from '../../context/AppContext'
 
 const Table = () => {
   const {state ,dispatch} = useContext(AppContext)
-  // state varables
-  const [id, setId] = useState(null);
-  const [data, setData] = useState(null);
-  const [key, setKey] = useState(null);
 
   // function for add data
   const handleSubmit = async (
@@ -42,7 +38,6 @@ const Table = () => {
       if (res.status === 200) {
         toast.success("product added successfully!");
         setInterval(() => {
-          setKey(Math.random());
         }, 500);
       } else {
         toast.error("An error occured!");
@@ -56,11 +51,6 @@ const Table = () => {
   const filterProducts = (products) => {
     return products.filter((item) => item.device_type.includes(state.currentDevice));
   }
-
-  // render component after adding new data
-  useEffect(() => {
-    // getData();
-  }, [key]);
 
   return (
     <>
@@ -96,9 +86,6 @@ const Table = () => {
                   key={index}
                   item={item}
                   index={index}
-                  setKey={setKey}
-                  setId={setId}
-                  id={id}
                 />
               )) : 
               <Spinner/>
