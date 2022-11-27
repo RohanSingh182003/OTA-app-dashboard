@@ -30,7 +30,7 @@ const User = () => {
       >
         <div
           onClick={handleLogout}
-          className="flex text-center text-blue-700 space-x-2 p-2 hover:bg-gray-200 rounded-lg"
+          className="flex text-center text-primary space-x-2 p-2 hover:bg-gray-200 rounded-lg"
         >
           <AiOutlineLogout className="text-xl" />
           <p className="mt-1">Logout</p>

@@ -100,7 +100,7 @@ const Dropdown = () => {
         </h2>
         <label
           htmlFor="add-device-modal"
-          className="btn btn-primary w-full my-2"
+          className="btn btn-primary w-full my-2 shadow-lg"
         >
           + Add Device
         </label>
@@ -108,7 +108,7 @@ const Dropdown = () => {
           <h3 className="text-primary text-center py-4 border-b">
             Select device
           </h3>
-          <div className={`form-control backdrop-blur-2xl ${state.currentProduct.devices && state.currentProduct.devices.length > 0 ? 'border border-gray-300 rounded-md' : ''}`}>
+          <div className={`form-control backdrop-blur-2xl shadow-lg ${state.currentProduct.devices && state.currentProduct.devices.length > 0 ? 'border border-gray-300 rounded-md' : ''}`}>
             {state.currentProduct.devices && state.currentProduct.devices.length > 0 ?
               state.currentProduct.devices.map((item) => {
                 return (

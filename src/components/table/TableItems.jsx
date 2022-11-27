@@ -74,7 +74,7 @@ const TableItems = (props) => {
           <div className="tooltip" data-tip="Update">
             <label htmlFor={`my-modal-${props.index + 1}`}>
               <BsFillPenFill
-                className="text-blue-600 w-10 cursor-pointer"
+                className="text-primary w-10 cursor-pointer"
               />
             </label>
           </div>
