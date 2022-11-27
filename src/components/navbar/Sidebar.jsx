@@ -44,17 +44,31 @@ const Dropdown = () => {
     if (response.status === 200) {
       toast.success("device added successfully!");
       setProd("");
-        dispatch({
-          type:"setKey"
-        })
+      dispatch({
+        type: "setKey",
+      });
     } else {
       toast.warn("product already exists.");
     }
   };
 
-  const handleDelete = () => {
-    console.log('deleted!')
-  }
+  const handleDelete = (item) => {
+    let ans = confirm("are you confirm to delete this device?");
+    if (ans != true) return undefined;
+    axios
+      .delete(
+        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}/${item}`
+      )
+      .then(() => {
+        axios.delete(
+          `http://localhost:3000/api/products/device/${state.currentProduct._id}/${item}`
+        );
+        toast.success("device deleted successfully!");
+        dispatch({
+          type: "setKey",
+        });
+      });
+  };
 
   useEffect(() => {
     dispatch({
@@ -84,7 +98,10 @@ const Dropdown = () => {
         <h2 className="text-center text-2xl py-3 text-primary border-gray-300 border-b-2 font-semibold">
           Control Center
         </h2>
-        <label htmlFor="add-device-modal" className="btn btn-primary w-full my-2">
+        <label
+          htmlFor="add-device-modal"
+          className="btn btn-primary w-full my-2"
+        >
           + Add Device
         </label>
         <div className="container">
@@ -94,7 +111,13 @@ const Dropdown = () => {
           <div className="form-control border border-gray-300 rounded-md">
             {state.currentProduct.devices &&
               state.currentProduct.devices.map((item) => {
-                return <SidebarItems setDevice={setDevice} handleDelete={handleDelete} title={item} />;
+                return (
+                  <SidebarItems
+                    setDevice={setDevice}
+                    handleDelete={handleDelete}
+                    title={item}
+                  />
+                );
               })}
           </div>
         </div>

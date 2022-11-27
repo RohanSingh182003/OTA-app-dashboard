@@ -2,6 +2,7 @@ import React from 'react'
 import { RiDeleteBackFill } from 'react-icons/ri'
 
 const SidebarItems = (props) => {
+  console.log(props.id)
   return (
     <div className='hover:bg-gray-300 flex items-center'>
     <label onClick={()=> props.setDevice(props.title)} className="label cursor-pointer px-6 py-4 w-5/6">
@@ -12,7 +13,9 @@ const SidebarItems = (props) => {
       className="radio checked:bg-primary"
     />
   </label>
-  <RiDeleteBackFill onClick={() => props.handleDelete()} className="text-2xl text-red-500 cursor-pointer" />
+  <div className="tooltip tooltip-right" data-tip={`delete ${props.title}`}>
+  <RiDeleteBackFill onClick={() => props.handleDelete(props.title)} className="text-2xl text-red-500 cursor-pointer" />
+  </div>
   </div>
   )
 }
