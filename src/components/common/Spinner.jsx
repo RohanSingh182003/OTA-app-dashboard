@@ -8,7 +8,7 @@ const Spinner = () => {
       } catch (error) {
         console.log(error)
       }
-      }, 15000);
+      }, 5000);
   }
   useEffect(() => {
     getLoadingStatus()

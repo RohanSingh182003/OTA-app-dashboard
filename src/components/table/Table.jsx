@@ -65,7 +65,7 @@ const Table = () => {
       </div>
       <div className="overflow-x-auto w-full">
         {/* table starts here */}
-        <table className="table w-full">
+        {state.currentProduct.product && state.currentProduct.product.length > 0 ? <table className="table w-full">
           {/* <!-- head --> */}
           <thead className="-z-10">
             <tr>
@@ -84,7 +84,7 @@ const Table = () => {
           <tbody>
             {/* <!-- row --> */}
             {state.currentProduct.product &&
-            state.currentProduct.product.length > 0 ? (
+            state.currentProduct.product.length > 0 && (
               filterProducts(state.currentProduct.product).map(
                 (item, index) => (
                   <TableItems
@@ -97,13 +97,12 @@ const Table = () => {
                   />
                 )
               )
-            ) : (
-              <div className="w-[100vw] grid place-items-center">
-              <Spinner />
-              </div>
             )}
           </tbody>
-        </table>
+        </table> :               
+        <div className="w-[85vw] py-6 grid place-items-center -z-10 overflow-hidden">
+            <Spinner />
+        </div>}
       </div>
     </>
   );
