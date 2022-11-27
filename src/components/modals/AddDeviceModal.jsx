@@ -3,8 +3,8 @@ import React from "react";
 const AddDeviceModal = ({handleSubmit , prod , setProd}) => {
   return (
     <>
-      <input type="checkbox" id="my-modal" className="modal-toggle" />
-      <label htmlFor="my-modal" className="modal cursor-pointer">
+      <input type="checkbox" id="add-device-modal" className="modal-toggle" />
+      <label htmlFor="add-device-modal" className="modal cursor-pointer">
         <form onSubmit={handleSubmit} className="bg-white p-6 w-72 h-52 rounded-lg grid place-items-center">
             <div className="relative">
               <input
@@ -23,7 +23,7 @@ const AddDeviceModal = ({handleSubmit , prod , setProd}) => {
               </label>
             </div>
           <button type="submit" className="w-full">
-            <label htmlFor="my-modal" className="btn w-full">
+            <label htmlFor="add-device-modal" className="btn w-full">
               Add
             </label>
           </button>
