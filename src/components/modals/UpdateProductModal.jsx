@@ -7,9 +7,10 @@ const UpdateProductModal = ({
   current_version,
   index
 }) => {
-  const [mac, setMac] = useState(mac_address);
-  const [version, setVersion] = useState(current_version);
+  const [mac, setMac] = useState('');
+  const [version, setVersion] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
+  console.log(version,mac)
 
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -56,6 +57,7 @@ const UpdateProductModal = ({
               <label
                 onClick={() => {
                   handleUpdate(mac, version , selectedFile);
+                  setVersion('')
                 }}
                 htmlFor={`my-modal-${index}`}
                 className="btn btn-ghost text-blue-700"
