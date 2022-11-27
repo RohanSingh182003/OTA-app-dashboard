@@ -63,10 +63,7 @@ const EmailOtp = () => {
       <div className="hidden md:block w-1/2 h-full bg-black">
         <div className="h-full w-full grid place-items-center">
           <div>
-            <h1 className="text-white text-5xl">Six Sense Mobility</h1>
-            <p className="text-gray-400 text-right mt-1 mr-1">
-              company tagline here
-            </p>
+          <img src="./src/assets/SixSenseMobility.png" alt="SixSenseMobility" />
           </div>
         </div>
       </div>
