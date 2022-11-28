@@ -19,7 +19,7 @@ const Table = () => {
     version,
     file
   ) => {
-    let myData = {
+    let product = {
       device_type: state.currentDevice,
       prod_name,
       ip_address,
@@ -28,12 +28,12 @@ const Table = () => {
       function: func,
       version,
       last_updated: new Date(),
-      file,
     };
     try {
       let res = await axios.post(
         `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
-        { product: myData }
+        { product, upload_file: file },
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.status === 200) {
         toast.success("product added successfully!");
@@ -49,9 +49,7 @@ const Table = () => {
   };
 
   const filterProducts = (products) => {
-    return products.filter((item) =>
-      item.device_type === state.currentDevice
-    );
+    return products.filter((item) => item.device_type === state.currentDevice);
   };
 
   return (
@@ -65,44 +63,47 @@ const Table = () => {
       </div>
       <div className="overflow-x-auto w-full">
         {/* table starts here */}
-        {state.currentProduct.product && state.currentProduct.product.length > 0 ? <table className="table w-full">
-          {/* <!-- head --> */}
-          <thead className="-z-10">
-            <tr>
-              <th>SL_NO</th>
-              <th>Name</th>
-              <th>IP Address</th>
-              <th>MAC Address</th>
-              <th>Status</th>
-              <th>Fuction</th>
-              <th>Version</th>
-              <th>Last Updated</th>
-              <th>Update</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* <!-- row --> */}
-            {state.currentProduct.product &&
-            state.currentProduct.product.length > 0 && (
-              filterProducts(state.currentProduct.product).map(
-                (item, index) => (
-                  <TableItems
-                    key={index}
-                    item={item}
-                    index={index}
-                    id={item._id}
-                    mac={item.mac_address}
-                    version={item.version}
-                  />
-                )
-              )
-            )}
-          </tbody>
-        </table> :               
-        <div className="w-[85vw] py-6 grid place-items-center -z-10 overflow-hidden">
+        {state.currentProduct.product &&
+        state.currentProduct.product.length > 0 ? (
+          <table className="table w-full">
+            {/* <!-- head --> */}
+            <thead className="-z-10">
+              <tr>
+                <th>SL_NO</th>
+                <th>Name</th>
+                <th>IP Address</th>
+                <th>MAC Address</th>
+                <th>Status</th>
+                <th>Fuction</th>
+                <th>Version</th>
+                <th>Last Updated</th>
+                <th>Update</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* <!-- row --> */}
+              {state.currentProduct.product &&
+                state.currentProduct.product.length > 0 &&
+                filterProducts(state.currentProduct.product).map(
+                  (item, index) => (
+                    <TableItems
+                      key={index}
+                      item={item}
+                      index={index}
+                      id={item._id}
+                      mac={item.mac_address}
+                      version={item.version}
+                    />
+                  )
+                )}
+            </tbody>
+          </table>
+        ) : (
+          <div className="w-[85vw] py-6 grid place-items-center -z-10 overflow-hidden">
             <Spinner />
-        </div>}
+          </div>
+        )}
       </div>
     </>
   );
