@@ -4,10 +4,10 @@ import { AiFillDelete } from "react-icons/ai";
 import { BsFillPenFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import UpdateProductModal from "../modals/UpdateProductModal";
-import AppContext from '../../context/AppContext'
+import AppContext from "../../context/AppContext";
 
 const TableItems = (props) => {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch , state } = useContext(AppContext);
   const handleUpdate = async (mac_address, version, file) => {
     try {
       if (mac_address.length === 0 || version.length === 0 || file === null) {
@@ -18,11 +18,12 @@ const TableItems = (props) => {
         mac_address,
         version,
         last_updated: new Date(),
-        file,
       };
+      let email = state.currentProduct.email;
       let res = await axios.put(
         `http://localhost:3000/api/products/device/${props.id}`,
-        myData
+        { product: myData, email, upload_file: file },
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.status === 200) {
         toast.success("details updated successfully!");
@@ -31,6 +32,7 @@ const TableItems = (props) => {
         toast.error("An error occured!");
       }
     } catch (error) {
+      console.log(error.message)
       toast.error("An error occured!");
     }
   };
@@ -73,9 +75,7 @@ const TableItems = (props) => {
         <td>
           <div className="tooltip" data-tip="Update">
             <label htmlFor={`my-modal-${props.index + 1}`}>
-              <BsFillPenFill
-                className="text-primary w-10 cursor-pointer"
-              />
+              <BsFillPenFill className="text-primary w-10 cursor-pointer" />
             </label>
           </div>
         </td>

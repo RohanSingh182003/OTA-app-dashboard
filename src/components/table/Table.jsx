@@ -29,10 +29,11 @@ const Table = () => {
       version,
       last_updated: new Date(),
     };
+    let email = state.currentProduct.email
     try {
       let res = await axios.post(
         `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
-        { product, upload_file: file },
+        { product,email, upload_file: file },
         { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.status === 200) {
