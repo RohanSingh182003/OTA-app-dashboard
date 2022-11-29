@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { toast } from "react-toastify";
@@ -6,9 +6,12 @@ import axios from "axios";
 import ToastContainer from "../common/ToastContainer";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
+import ButtonSpinner from "../common/ButtonSpinner";
 
 const Login = () => {
   const navigate = useNavigate();
+  const buttonRef = useRef()
+  const spinnerRef = useRef()
 
   // for Google-Login
 
@@ -45,6 +48,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    buttonRef.current.classList.add('hidden')
+    spinnerRef.current.classList.remove('hidden')
+
     let res = await axios.get(
       "https://six-sense-mobility-iot.vercel.app/api/users"
     );
@@ -52,6 +58,10 @@ const Login = () => {
     let user = res.data.find((ele) => ele.email === email);
 
     if (!user) {
+      
+      buttonRef.current.classList.remove('hidden')
+      spinnerRef.current.classList.add('hidden')
+
       return toast.error("user doesn't exists.");
     }
     let enc_password = user.password;
@@ -60,12 +70,20 @@ const Login = () => {
       "SixSenseMobility"
     ).toString(CryptoJS.enc.Utf8);
     if (password != dec_password) {
+
+      buttonRef.current.classList.remove('hidden')
+      spinnerRef.current.classList.add('hidden')
+
       return toast.error("wrong credentials.");
     }
     localStorage.setItem("user", JSON.stringify(user));
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);
+
+    buttonRef.current.classList.remove('hidden')
+    spinnerRef.current.classList.add('hidden')
+
     return navigate("/");
   };
 
@@ -82,7 +100,10 @@ const Login = () => {
       <div className="hidden md:block w-1/2 h-full bg-black">
         <div className="h-full w-full grid place-items-center">
           <div>
-            <img src="./src/assets/SixSenseMobility.png" alt="SixSenseMobility" />
+            <img
+              src="./src/assets/SixSenseMobility.png"
+              alt="SixSenseMobility"
+            />
           </div>
         </div>
       </div>
@@ -161,7 +182,10 @@ const Login = () => {
                 </div>
                 {/* sing in button  */}
                 <button type="submit" className="w-full btn">
-                  Sign in
+                  <p ref={buttonRef} className="btn-name">Sign in</p>
+                  <p ref={spinnerRef} className="btn-spinner hidden">
+                    <ButtonSpinner />
+                  </p>
                 </button>
                 {/* google login button  */}
                 <GoogleLogin
