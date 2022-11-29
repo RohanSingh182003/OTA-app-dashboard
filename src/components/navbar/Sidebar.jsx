@@ -65,6 +65,12 @@ const Dropdown = () => {
         );
         toast.success("device deleted successfully!");
         dispatch({
+          type: 'setDevice',
+          payload : {
+            'device' : state.currentProduct.devices[0]
+          }
+        })
+        dispatch({
           type: "setKey",
         });
       });
