@@ -1,17 +1,22 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
 import CryptoJS from "crypto-js";
+import ButtonSpinner from "../common/ButtonSpinner";
 
 const RecoverPassword = () => {
   const navigate = useNavigate();
+  const buttonRef = useRef()
+  const spinnerRef = useRef()
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    buttonRef.current.classList.add('hidden')
+    spinnerRef.current.classList.remove('hidden')
     if (password != confirmPassword) {
       return toast.error("passwords doesn't matched");
     }
@@ -37,6 +42,8 @@ const RecoverPassword = () => {
     );
 
     if (res.status != 200) {
+      buttonRef.current.classList.remove('hidden')
+      spinnerRef.current.classList.add('hidden')
       return toast.error("an error occured!");
     }
     setTimeout(() => {
@@ -44,6 +51,8 @@ const RecoverPassword = () => {
       localStorage.clear("recoveryEmail");
       localStorage.clear("recoveryOTP");
     }, 500);
+    buttonRef.current.classList.remove('hidden')
+    spinnerRef.current.classList.add('hidden')
     return navigate("/login");
   };
 
@@ -122,7 +131,10 @@ const RecoverPassword = () => {
                   </label>
                 </div>
                 <button type="submit" className="w-full btn">
-                  Sign up
+                <p ref={buttonRef} className="btn-name">Next</p>
+                  <p ref={spinnerRef} className="btn-spinner hidden">
+                    <ButtonSpinner />
+                  </p>
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account ?{" "}

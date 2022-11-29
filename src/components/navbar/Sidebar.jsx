@@ -114,7 +114,7 @@ const Dropdown = () => {
           <h3 className="text-primary text-center py-4 border-b">
             Select device
           </h3>
-          <div className={`form-control backdrop-blur-2xl shadow-lg ${state.currentProduct.devices && state.currentProduct.devices.length > 0 ? 'border border-gray-300 rounded-md' : ''}`}>
+          <div className={`form-control backdrop-blur-md ${state.currentProduct.devices && state.currentProduct.devices.length > 0 ? 'border border-gray-300 rounded-md shadow-lg bg-gray-100' : ''}`}>
             {state.currentProduct.devices && state.currentProduct.devices.length > 0 ?
               state.currentProduct.devices.map((item) => {
                 return (
