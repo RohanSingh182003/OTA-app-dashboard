@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import TableItems from "./TableItems";
 import Modal from "../modals/AddProductModal";
 import axios from "axios";
@@ -34,7 +34,7 @@ const Table = () => {
       let res = await axios.post(
         `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
         { product,email, upload_file: file },
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" , "authorization": `Bearer ${state.currentProduct.token}` } }
       );
       if (res.status === 200) {
         toast.success("product added successfully!");

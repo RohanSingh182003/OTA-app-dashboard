@@ -24,7 +24,7 @@ const Home = () => {
   }
 
   const getData = async () => {
-    let res = await axios.get("http://localhost:3000/api/products");
+    let res = await axios.get("http://localhost:3000/api/products", {headers: {authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`}});
     let email = JSON.parse(localStorage.getItem("user")).email;
     let user = res.data.find((item) => item.email === email);
     // if user exists
@@ -41,7 +41,7 @@ const Home = () => {
       };
       axios
         .post("http://localhost:3000/api/products", new_document)
-        .then((res) => setUser(res.data));
+        .then((res) => setUser(res.data))
     }
   };
   useEffect(() => {

@@ -23,7 +23,7 @@ const TableItems = (props) => {
       let res = await axios.put(
         `http://localhost:3000/api/products/device/${props.id}`,
         { product: myData, email, upload_file: file },
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" , "authorization": `Bearer ${state.currentProduct.token}` } }
       );
       if (res.status === 200) {
         toast.success("details updated successfully!");
@@ -43,7 +43,8 @@ const TableItems = (props) => {
         return null;
       }
       let res = await axios.delete(
-        `http://localhost:3000/api/products/device/${props.id}`
+        `http://localhost:3000/api/products/device/${props.id}`,
+        {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
       );
       if (res.status === 200) {
         toast.success("product deleted successfully!");

@@ -39,7 +39,8 @@ const Dropdown = () => {
     if (existingProd) return toast.warn("poroduct already exists!");
     let response = await axios.post(
       `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}`,
-      { devices: prod }
+      { devices: prod },
+      {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
     );
     if (response.status === 200) {
       toast.success("device added successfully!");
@@ -57,11 +58,13 @@ const Dropdown = () => {
     if (ans != true) return undefined;
     axios
       .delete(
-        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}/${item}`
+        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}/${item}`,      
+        {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
       )
       .then(() => {
         axios.delete(
-          `http://localhost:3000/api/products/device/${state.currentProduct._id}/${item}`
+          `http://localhost:3000/api/products/device/${state.currentProduct._id}/${item}`,      
+          {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
         );
         toast.success("device deleted successfully!");
         dispatch({
