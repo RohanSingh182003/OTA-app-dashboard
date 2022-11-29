@@ -36,15 +36,14 @@ const TableItems = (props) => {
       toast.error("An error occured!");
     }
   };
-  const handleDelete = async (mac_address) => {
+  const handleDelete = async () => {
     try {
       let ans = confirm("Are you sure?");
       if (ans != true) {
         return null;
       }
-      let email = state.currentProduct.email;
       let res = await axios.delete(
-        `http://localhost:3000/api/products/device/${props.id}?email=${email}&mac_address=${mac_address}`
+        `http://localhost:3000/api/products/device/${props.id}`
       );
       if (res.status === 200) {
         toast.success("product deleted successfully!");
@@ -84,7 +83,7 @@ const TableItems = (props) => {
           <div className="tooltip" data-tip="Delete">
             <AiFillDelete
               onClick={() => {
-                handleDelete(props.item.mac_address);
+                handleDelete();
               }}
               className="text-red-600 w-10 h-6 cursor-pointer"
             />
