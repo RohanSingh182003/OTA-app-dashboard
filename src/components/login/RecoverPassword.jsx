@@ -15,11 +15,11 @@ const RecoverPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    buttonRef.current.classList.add('hidden')
-    spinnerRef.current.classList.remove('hidden')
     if (password != confirmPassword) {
       return toast.error("passwords doesn't matched");
     }
+    buttonRef.current.classList.add('hidden')
+    spinnerRef.current.classList.remove('hidden')
 
     let enc_password = CryptoJS.AES.encrypt(
       password,

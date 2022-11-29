@@ -1,24 +1,33 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ToastContainer from "../common/ToastContainer";
+import ButtonSpinner from '../common/ButtonSpinner'
 
 const Singup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const buttonRef = useRef()
+  const spinnerRef = useRef()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    buttonRef.current.classList.add('hidden')
+    spinnerRef.current.classList.remove('hidden')
     let response = await axios.get(
       "https://six-sense-mobility-iot.vercel.app/api/users"
     );
     let user = response.data.find((ele) => ele.email === email);
 
     if (user) {
+      buttonRef.current.classList.add('hidden')
+      spinnerRef.current.classList.remove('hidden')
       return toast.warn("user already exists.");
     }
     localStorage.setItem("email", email);
+    buttonRef.current.classList.add('hidden')
+    spinnerRef.current.classList.remove('hidden')
     navigate("/emailOtp");
   };
 
@@ -73,7 +82,10 @@ const Singup = () => {
                   </label>
                 </div>
                 <button type="submit" className="w-full btn">
-                  Next
+                <p ref={buttonRef} className="btn-name">Next</p>
+                  <p ref={spinnerRef} className="btn-spinner hidden">
+                    <ButtonSpinner />
+                  </p>
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account ?{" "}
