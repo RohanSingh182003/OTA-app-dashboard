@@ -5,8 +5,20 @@ import AppContext from "../../context/AppContext";
 import AddDeviceModal from "../modals/AddDeviceModal";
 import axios from "axios";
 import { toast } from "react-toastify";
+import CryptoJS from "crypto-js";
 
 const Dropdown = () => {
+  const { state, dispatch } = useContext(AppContext);
+  const setUser = (user) => {
+    dispatch({
+      type: "setProduct",
+      payload: { user },
+    });
+    dispatch({
+      type: "setDevice",
+      payload: { device: user.devices[0] },
+    });
+  };
   const setInitialDevice = () => {
     if (state.currentProduct) {
       if (
@@ -18,7 +30,6 @@ const Dropdown = () => {
       return state.currentProduct.devices && state.currentProduct.devices[0];
     }
   };
-  const { state, dispatch } = useContext(AppContext);
   const [device, setDevice] = useState(setInitialDevice());
   const [toggle, setToggle] = useState("-translate-x-full");
   const [prod, setProd] = useState("");
@@ -35,21 +46,42 @@ const Dropdown = () => {
     if (prod.length === 0) {
       return toast.error("please enter device name first.");
     }
-    let existingProd = state.currentProduct.devices.find((ele) => ele === prod);
-    if (existingProd) return toast.warn("poroduct already exists!");
-    let response = await axios.post(
-      `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}`,
-      { devices: prod },
-      {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
+    let email = localStorage.getItem("user");
+    let dec_email = CryptoJS.AES.decrypt(email, "SixSenseMobility").toString(
+      CryptoJS.enc.Utf8
     );
-    if (response.status === 200) {
-      toast.success("device added successfully!");
-      setProd("");
-      dispatch({
-        type: "setKey",
-      });
+    let user = state.allProducts.find((item) => item.email === dec_email);
+    // if user exists
+    if (user) {
+      let existingProd = state.currentProduct.devices.find(
+        (ele) => ele === prod
+      );
+      if (existingProd) return toast.warn("poroduct already exists!");
+      let response = await axios.post(
+        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}`,
+        { devices: prod },
+        { headers: { authorization: `Bearer ${state.currentProduct.token}` } }
+      );
+      if (response.status === 200) {
+        toast.success("device added successfully!");
+        setProd("");
+        dispatch({
+          type: "setKey",
+        });
+      } else {
+        toast.warn("product already exists.");
+      }
     } else {
-      toast.warn("product already exists.");
+      // if user doesn't exists
+      let newProd = {
+        email: dec_email,
+        isAdmin: false,
+        devices: [prod],
+        product: [],
+      };
+      let res = await axios.post("http://localhost:3000/api/products", newProd);
+      setUser(res.data);
+      console.log(res.data);
     }
   };
 
@@ -58,21 +90,21 @@ const Dropdown = () => {
     if (ans != true) return undefined;
     axios
       .delete(
-        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}/${item}`,      
-        {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
+        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}/${item}`,
+        { headers: { authorization: `Bearer ${state.currentProduct.token}` } }
       )
       .then(() => {
         axios.delete(
-          `http://localhost:3000/api/products/device/${state.currentProduct._id}/${item}`,      
-          {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
+          `http://localhost:3000/api/products/device/${state.currentProduct._id}/${item}`,
+          { headers: { authorization: `Bearer ${state.currentProduct.token}` } }
         );
         toast.success("device deleted successfully!");
         dispatch({
-          type: 'setDevice',
-          payload : {
-            'device' : state.currentProduct.devices[0]
-          }
-        })
+          type: "setDevice",
+          payload: {
+            device: state.currentProduct.devices[0],
+          },
+        });
         dispatch({
           type: "setKey",
         });
@@ -117,8 +149,16 @@ const Dropdown = () => {
           <h3 className="text-primary text-center py-4 border-b">
             Select device
           </h3>
-          <div className={`form-control backdrop-blur-md ${state.currentProduct.devices && state.currentProduct.devices.length > 0 ? 'border border-gray-300 rounded-md shadow-lg bg-gray-100' : ''}`}>
-            {state.currentProduct.devices && state.currentProduct.devices.length > 0 ?
+          <div
+            className={`form-control backdrop-blur-md ${
+              state.currentProduct.devices &&
+              state.currentProduct.devices.length > 0
+                ? "border border-gray-300 rounded-md shadow-lg bg-gray-100"
+                : ""
+            }`}
+          >
+            {state.currentProduct.devices &&
+            state.currentProduct.devices.length > 0 ? (
               state.currentProduct.devices.map((item) => {
                 return (
                   <SidebarItems
@@ -127,10 +167,12 @@ const Dropdown = () => {
                     title={item}
                   />
                 );
-              }) 
-            :
-            <p className="text-primary text-xl text-center font-semibold">No devices, let's add one.</p>
-            }
+              })
+            ) : (
+              <p className="text-primary text-xl text-center font-semibold">
+                No devices, let's add one.
+              </p>
+            )}
           </div>
         </div>
       </section>

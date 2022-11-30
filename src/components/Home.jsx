@@ -37,7 +37,12 @@ const Home = () => {
         authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`,
       },
     }); // admin token , its required too access data.
-
+    dispatch({
+      "type": "setAllProduct",
+      payload: {
+        allProducts : res.data
+      }
+    })
     let email = localStorage.getItem("user");
     let dec_email = CryptoJS.AES.decrypt(email, "SixSenseMobility").toString(
       CryptoJS.enc.Utf8

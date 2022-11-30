@@ -4,6 +4,7 @@ import Reducer from './Reducer'
 
 const AppState = (props) => {
     const initialState = {
+      allProducts : [],
       currentProduct : {},
       currentDevice : '',
       key : 0
