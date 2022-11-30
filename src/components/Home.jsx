@@ -35,28 +35,29 @@ const Home = () => {
       headers: {
         authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`,
       },
-    });
+    }); // admin token , its required too access data.
 
     let email = localStorage.getItem("user");
     let dec_email = CryptoJS.AES.decrypt(email, "SixSenseMobility").toString(
       CryptoJS.enc.Utf8
     );
-    let user = res.data.find((item) => item.email === dec_email)
-    // if user exists
-    if (user) {
-      setUser(user);
-    }
-    //if user doesn't exixts
-    else {
+    let user = res.data.find((item) => item.email === dec_email);
+    // if user doesn't exists
+    if (!user) {
       let new_document = {
-        email : dec_email,
+        email: dec_email,
         isAdmin: false,
         devices: [],
         product: [],
       };
-      let res = await axios.post("http://localhost:3000/api/products", new_document)
-      return setUser(res.data)
+      let res = await axios.post(
+        "http://localhost:3000/api/products",
+        new_document
+      );
+      return setUser(res.data);
     }
+    //if user exixts
+    setUser(user);
   };
   useEffect(() => {
     getData();
