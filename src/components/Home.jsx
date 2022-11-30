@@ -45,20 +45,7 @@ const Home = () => {
     let user = res.data.find((item) => item.email === dec_email);
     // if user doesn't exists
     if (!user) {
-      let new_document = {
-        email: dec_email,
-        isAdmin: false,
-        devices: [],
-        product: [],
-      };
-      if (effectRef.current === false) {
-        let res = await axios.post(
-          "http://localhost:3000/api/products",
-          new_document
-        );
-        effectRef.current = true;
-        return setUser(res.data);
-      }
+      return undefined;
     }
     //if user exixts
     setUser(user);
