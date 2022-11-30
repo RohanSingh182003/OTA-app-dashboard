@@ -21,7 +21,7 @@ const TableItems = (props) => {
       };
       let email = state.currentProduct.email;
       let res = await axios.put(
-        `https://six-sense-mobility-iot.vercel.app/api/products/device/${props.id}`,
+        `http://localhost:3000/api/products/device/${props.id}`,
         { product: myData, email, upload_file: file },
         { headers: { "Content-Type": "multipart/form-data" , "authorization": `Bearer ${state.currentProduct.token}` } }
       );
@@ -43,7 +43,7 @@ const TableItems = (props) => {
         return null;
       }
       let res = await axios.delete(
-        `https://six-sense-mobility-iot.vercel.app/api/products/device/${props.id}`,
+        `http://localhost:3000/api/products/device/${props.id}`,
         {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
       );
       if (res.status === 200) {
