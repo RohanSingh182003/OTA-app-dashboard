@@ -107,7 +107,7 @@ const Table = () => {
           </table>
         ) : (
           <div className="w-[85vw] py-6 grid place-items-center -z-10 overflow-hidden">
-            <Spinner />
+            {/* <Spinner /> */}
           </div>
         )}
         {state.currentProduct.product &&

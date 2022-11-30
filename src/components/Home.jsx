@@ -29,6 +29,7 @@ const Home = () => {
       });
     }
   };
+
   const getData = async () => {
     let res = await axios.get("http://localhost:3000/api/products", {
       headers: {
@@ -40,7 +41,7 @@ const Home = () => {
     let dec_email = CryptoJS.AES.decrypt(email, "SixSenseMobility").toString(
       CryptoJS.enc.Utf8
     );
-    let user = res.data.find((item) => item.email === dec_email);
+    let user = res.data.find((item) => item.email === dec_email)
     // if user exists
     if (user) {
       setUser(user);
@@ -48,14 +49,13 @@ const Home = () => {
     //if user doesn't exixts
     else {
       let new_document = {
-        email,
+        email : dec_email,
         isAdmin: false,
         devices: [],
         product: [],
       };
-      axios
-        .post("http://localhost:3000/api/products", new_document)
-        .then((res) => setUser(res.data));
+      let res = await axios.post("http://localhost:3000/api/products", new_document)
+      return setUser(res.data)
     }
   };
   useEffect(() => {
