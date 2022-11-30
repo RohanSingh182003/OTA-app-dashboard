@@ -31,7 +31,8 @@ const Login = () => {
   });
   const onSuccess = (res) => {
     setProfile(res.profileObj);
-    localStorage.setItem("user", JSON.stringify(res.profileObj));
+    const enc_email = CryptoJS.AES.encrypt(res.profileObj.email, 'SixSenseMobility').toString();
+    localStorage.setItem("user", enc_email);
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);
@@ -76,7 +77,8 @@ const Login = () => {
 
       return toast.error("wrong credentials.");
     }
-    localStorage.setItem("user", JSON.stringify(user));
+    const enc_email = CryptoJS.AES.encrypt(user.email, 'SixSenseMobility').toString();
+    localStorage.setItem("user", enc_email);
     setTimeout(() => {
       toast.success("login successfully!");
     }, 500);

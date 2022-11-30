@@ -4,13 +4,14 @@ import Table from "./table/Table";
 import ToastContainer from "./common/ToastContainer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import AppContext from '../context/AppContext'
+import AppContext from "../context/AppContext";
+import CryptoJS from "crypto-js";
 
 const Home = () => {
   let navigate = useNavigate();
-  const {state ,dispatch} = useContext(AppContext)
+  const { state, dispatch } = useContext(AppContext);
   const isLogin = () => {
-    let user = JSON.parse(localStorage.getItem("user"));
+    let user = localStorage.getItem("user");
     if (user === null) {
       return navigate("/login");
     }
@@ -19,22 +20,30 @@ const Home = () => {
   const setUser = (user) => {
     dispatch({
       type: "setProduct",
-      payload : {user}
-    })
-    if(user.devices.length > 0){
+      payload: { user },
+    });
+    if (user.devices.length > 0) {
       dispatch({
         type: "setDevice",
-        payload : { device : user.devices[0]}
-      })
+        payload: { device: user.devices[0] },
+      });
     }
-  }
+  };
   const getData = async () => {
-    let res = await axios.get("http://localhost:3000/api/products", {headers: {authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`}});
-    let email = JSON.parse(localStorage.getItem("user")).email;
-    let user = res.data.find((item) => item.email === email);
+    let res = await axios.get("http://localhost:3000/api/products", {
+      headers: {
+        authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`,
+      },
+    });
+
+    let email = localStorage.getItem("user");
+    let dec_email = CryptoJS.AES.decrypt(email, "SixSenseMobility").toString(
+      CryptoJS.enc.Utf8
+    );
+    let user = res.data.find((item) => item.email === dec_email);
     // if user exists
     if (user) {
-      setUser(user)
+      setUser(user);
     }
     //if user doesn't exixts
     else {
@@ -46,7 +55,7 @@ const Home = () => {
       };
       axios
         .post("http://localhost:3000/api/products", new_document)
-        .then((res) => setUser(res.data))
+        .then((res) => setUser(res.data));
     }
   };
   useEffect(() => {
@@ -54,9 +63,11 @@ const Home = () => {
     isLogin();
   }, []);
 
-  useEffect(() => {}, [state.currentDevice]) // to render component whenever currentDevice changed.
-  
-  useEffect(() => { getData() }, [state.key]) // to render components whenever make api calls and get current data.
+  useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
+
+  useEffect(() => {
+    getData();
+  }, [state.key]); // to render components whenever make api calls and get current data.
 
   return (
     <>
