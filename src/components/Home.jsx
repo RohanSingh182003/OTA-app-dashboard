@@ -21,8 +21,13 @@ const Home = () => {
       type: "setProduct",
       payload : {user}
     })
+    if(user.devices.length > 0){
+      dispatch({
+        type: "setDevice",
+        payload : { device : user.devices[0]}
+      })
+    }
   }
-
   const getData = async () => {
     let res = await axios.get("http://localhost:3000/api/products", {headers: {authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`}});
     let email = JSON.parse(localStorage.getItem("user")).email;
