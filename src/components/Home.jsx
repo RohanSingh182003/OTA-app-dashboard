@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Navbar from "./navbar/Navbar";
 import Table from "./table/Table";
 import ToastContainer from "./common/ToastContainer";
@@ -10,6 +10,7 @@ import CryptoJS from "crypto-js";
 const Home = () => {
   let navigate = useNavigate();
   const { state, dispatch } = useContext(AppContext);
+  const effectRef = useRef(false);
   const isLogin = () => {
     let user = localStorage.getItem("user");
     if (user === null) {
@@ -50,18 +51,21 @@ const Home = () => {
         devices: [],
         product: [],
       };
-      let res = await axios.post(
-        "http://localhost:3000/api/products",
-        new_document
-      );
-      return setUser(res.data);
+      if (effectRef.current === false) {
+        let res = await axios.post(
+          "http://localhost:3000/api/products",
+          new_document
+        );
+        effectRef.current = true;
+        return setUser(res.data);
+      }
     }
     //if user exixts
     setUser(user);
   };
   useEffect(() => {
-    getData();
     isLogin();
+    getData();
   }, []);
 
   useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
