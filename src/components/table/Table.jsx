@@ -29,12 +29,17 @@ const Table = () => {
       version,
       last_updated: new Date(),
     };
-    let email = state.currentProduct.email
+    let email = state.currentProduct.email;
     try {
       let res = await axios.post(
         `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
-        { product,email, upload_file: file },
-        { headers: { "Content-Type": "multipart/form-data" , "authorization": `Bearer ${state.currentProduct.token}` } }
+        { product, email, upload_file: file },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${state.currentProduct.token}`,
+          },
+        }
       );
       if (res.status === 200) {
         toast.success("product added successfully!");
@@ -105,6 +110,12 @@ const Table = () => {
             <Spinner />
           </div>
         )}
+        {state.currentProduct.product &&
+          filterProducts(state.currentProduct.product).length === 0 && (
+            <p className="text-center my-6 text-xl text-primary">
+              No devices , Let's add one!
+            </p>
+          )}
       </div>
     </>
   );
