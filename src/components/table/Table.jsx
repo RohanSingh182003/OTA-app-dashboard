@@ -32,7 +32,7 @@ const Table = () => {
     let email = state.currentProduct.email;
     try {
       let res = await axios.post(
-        `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
+        `https://six-sense-mobility-iot.vercel.app/api/products/device/${state.currentProduct._id}`,
         { product, email, upload_file: file },
         {
           headers: {

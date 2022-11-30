@@ -38,7 +38,7 @@ const Dropdown = () => {
     let existingProd = state.currentProduct.devices.find((ele) => ele === prod);
     if (existingProd) return toast.warn("poroduct already exists!");
     let response = await axios.post(
-      `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}`,
+      `https://six-sense-mobility-iot.vercel.app/api/products/deviceType/${state.currentProduct._id}`,
       { devices: prod },
       {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
     );
@@ -58,12 +58,12 @@ const Dropdown = () => {
     if (ans != true) return undefined;
     axios
       .delete(
-        `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}/${item}`,      
+        `https://six-sense-mobility-iot.vercel.app/api/products/deviceType/${state.currentProduct._id}/${item}`,      
         {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
       )
       .then(() => {
         axios.delete(
-          `http://localhost:3000/api/products/device/${state.currentProduct._id}/${item}`,      
+          `https://six-sense-mobility-iot.vercel.app/api/products/device/${state.currentProduct._id}/${item}`,      
           {headers : {"authorization": `Bearer ${state.currentProduct.token}`}}
         );
         toast.success("device deleted successfully!");

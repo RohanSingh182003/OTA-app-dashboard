@@ -31,7 +31,7 @@ const Home = () => {
   };
 
   const getData = async () => {
-    let res = await axios.get("http://localhost:3000/api/products", {
+    let res = await axios.get("https://six-sense-mobility-iot.vercel.app/api/products", {
       headers: {
         authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImRldmljZXMiOltdLCJwcm9kdWN0IjpbeyJ2ZXJzaW9uIjozLCJtYWNfYWRkcmVzcyI6IjEyOjM0OjU2Ojc4In1dLCJpYXQiOjE2Njk3MzU0OTB9.TEcLx7ClSESbbZf0Vtma9m9mvC6n-Co4pttsnnhrrSE`,
       },
@@ -51,7 +51,7 @@ const Home = () => {
         product: [],
       };
       let res = await axios.post(
-        "http://localhost:3000/api/products",
+        "https://six-sense-mobility-iot.vercel.app/api/products",
         new_document
       );
       return setUser(res.data);
