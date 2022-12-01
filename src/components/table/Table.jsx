@@ -42,12 +42,10 @@ const Table = () => {
       if (res.status === 200) {
         toast.success("product added successfully!");
         dispatch({ type: "setKey" });
-        console.log(state.currentDevice)
       } else {
         toast.error("An error occured!");
       }
     } catch (error) {
-      console.log(error);
       toast.error("Product already exists! Enter a different one");
     }
   };
@@ -55,6 +53,8 @@ const Table = () => {
   const filterProducts = (products) => {
     return products.filter((item) => item.device_type === state.currentDevice);
   };
+
+
 
   return (
     <>
@@ -120,7 +120,7 @@ const Table = () => {
         )}
         {state.currentProduct.product &&
           filterProducts(state.currentProduct.product).length === 0 && (
-            <div className="w-[100vw] grid place-items-center">
+            <div className="w-[85vw] grid place-items-center">
             <p className="text-center my-6 text-xl text-primary">
               No devices , Let's add one!
             </p>

@@ -25,7 +25,7 @@ const Home = () => {
     if (user.devices.length > 0) {
       dispatch({
         type: "setDevice",
-        payload: { device: user.devices[0] },
+        payload: { device: state.currentDevice ? state.currentDevice : user.devices[0] },
       });
     }
   };
@@ -54,18 +54,18 @@ const Home = () => {
     //if user exixts
     setUser(user);
   };
+
   useEffect(() => {
-    console.log('render 1')
     isLogin();
     getData();
   }, []);
 
-  // useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
-
   useEffect(() => {
-    console.log('render 2')
     getData();
   }, [state.key]); // to render components whenever make api calls and get current data.
+  
+
+  // useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
 
   return (
     <>

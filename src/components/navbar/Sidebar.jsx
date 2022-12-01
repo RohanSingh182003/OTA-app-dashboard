@@ -56,7 +56,6 @@ const Dropdown = () => {
       let existingProd = state.currentProduct.devices.find(
         (ele) => ele === prod
         );
-      console.log(prod,state.currentDevice,state)
       if (existingProd) return toast.warn("poroduct already exists!");
       let response = await axios.post(
         `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}`,
