@@ -134,30 +134,30 @@ const Dropdown = () => {
       </label>
       {/* sidebar starts here  */}
       <section
-        className={`absolute -top-2 -left-2 backdrop-blur-md shadow-2xl w-72 h-[100vh] border py-2 px-6 transition-transform ${toggle} z-20`}
+        className={`absolute -top-2 -left-2 backdrop-blur-md shadow-2xl w-72 h-[100vh] border dark:border-gray-800 py-2 px-6 transition-transform ${toggle} z-20`}
       >
         <AiOutlineClose
           onClick={handleToggle}
-          className="absolute right-4 md:right-2 text-2xl text-gray-400 rounded-full hover:bg-gray-300 cursor-pointer"
+          className="absolute right-4 md:right-2 text-2xl text-gray-400 rounded-full hover:bg-gray-300 cursor-pointer dark:hover:bg-gray-700"
         />
-        <h2 className="text-center text-2xl py-3 text-primary font-bold">
+        <h2 className="text-center text-2xl py-3 text-primary font-bold dark:text-gray-200">
           Control Center
         </h2>
         <label
           htmlFor="add-device-modal"
-          className="btn btn-primary w-full my-2 shadow-lg"
+          className="btn btn-primary  w-full my-2 shadow-lg"
         >
           + Add Device
         </label>
         <div className="container">
-          <h3 className="text-primary text-center py-4 border-b">
+          <h3 className="text-primary text-center py-4 border-b dark:border-none dark:text-gray-200">
             Select device
           </h3>
           <div
             className={`form-control backdrop-blur-md ${
               state.currentProduct.devices &&
               state.currentProduct.devices.length > 0
-                ? "border border-gray-300 rounded-md shadow-lg bg-gray-100"
+                ? "border border-gray-300 dark:border-gray-800 rounded-md shadow-lg bg-gray-100"
                 : ""
             }`}
           >
@@ -173,7 +173,7 @@ const Dropdown = () => {
                 );
               })
             ) : (
-              <p className="text-primary text-xl text-center font-semibold">
+              <p className="text-primary text-xl text-center font-semibold dark:text-gray-200">
                 No devices, let's add one.
               </p>
             )}

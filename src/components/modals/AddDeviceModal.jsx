@@ -5,14 +5,14 @@ const AddDeviceModal = ({handleSubmit , prod , setProd}) => {
     <>
       <input type="checkbox" id="add-device-modal" className="modal-toggle" />
       <label htmlFor="add-device-modal" className="modal cursor-pointer">
-        <form onSubmit={handleSubmit} className="bg-white p-6 w-72 h-52 rounded-lg grid place-items-center">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-700 p-6 w-72 h-52 rounded-lg grid place-items-center">
             <div className="relative">
               <input
               value={prod}
               onChange={(e)=>setProd(e.target.value)}
                 type="text"
                 id="floating_filled"
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-black peer"
+                className="block dark:bg-gray-700 rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-black peer"
                 placeholder=" "
               />
               <label
@@ -23,7 +23,7 @@ const AddDeviceModal = ({handleSubmit , prod , setProd}) => {
               </label>
             </div>
           <button type="submit" className="w-full">
-            <label htmlFor="add-device-modal" className="btn btn-ghost text-primary w-full">
+            <label htmlFor="add-device-modal" className="btn btn-ghost dark:btn-primary text-primary w-full">
               Add Device
             </label>
           </button>
