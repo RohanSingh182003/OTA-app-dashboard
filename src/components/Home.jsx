@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect} from "react";
 import Navbar from "./navbar/Navbar";
 import Table from "./table/Table";
 import ToastContainer from "./common/ToastContainer";
@@ -10,7 +10,6 @@ import CryptoJS from "crypto-js";
 const Home = () => {
   let navigate = useNavigate();
   const { state, dispatch } = useContext(AppContext);
-  const effectRef = useRef(false);
   const isLogin = () => {
     let user = localStorage.getItem("user");
     if (user === null) {
@@ -56,13 +55,15 @@ const Home = () => {
     setUser(user);
   };
   useEffect(() => {
+    console.log('render 1')
     isLogin();
     getData();
   }, []);
 
-  useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
+  // useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
 
   useEffect(() => {
+    console.log('render 2')
     getData();
   }, [state.key]); // to render components whenever make api calls and get current data.
 

@@ -28,6 +28,13 @@ const Reducer = (state, action) => {
         currentDevice: state.currentDevice,
         key: Math.random(),
       };
+    case "setInitialState":
+        return {
+          allProducts : [],
+          currentProduct : {},
+          currentDevice : '',
+          key : 0
+        };
 
     default:
       break;

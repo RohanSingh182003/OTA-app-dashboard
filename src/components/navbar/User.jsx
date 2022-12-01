@@ -14,6 +14,7 @@ const User = () => {
       toast.success("logout successfully!");
     }, 500);
     localStorage.removeItem("user");
+    dispatch({ "type":"setInitialState"})
     navigate("/login");
   };
 

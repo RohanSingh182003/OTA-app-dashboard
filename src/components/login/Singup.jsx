@@ -16,7 +16,7 @@ const Singup = () => {
     buttonRef.current.classList.add('hidden')
     spinnerRef.current.classList.remove('hidden')
     let response = await axios.get(
-      "https://six-sense-mobility-iot.vercel.app/api/users"
+      "http://localhost:3000/api/users"
     );
     let user = response.data.find((ele) => ele.email === email);
 

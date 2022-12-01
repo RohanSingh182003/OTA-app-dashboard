@@ -3,7 +3,6 @@ import TableItems from "./TableItems";
 import Modal from "../modals/AddProductModal";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Spinner from "../common/Spinner";
 import AppContext from "../../context/AppContext";
 
 const Table = () => {
@@ -29,11 +28,10 @@ const Table = () => {
       version,
       last_updated: new Date(),
     };
-    let email = state.currentProduct.email;
     try {
       let res = await axios.post(
         `http://localhost:3000/api/products/device/${state.currentProduct._id}`,
-        { product, email, upload_file: file },
+        { product, upload_file: file },
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -44,7 +42,7 @@ const Table = () => {
       if (res.status === 200) {
         toast.success("product added successfully!");
         dispatch({ type: "setKey" });
-        setInterval(() => {}, 500);
+        console.log(state.currentDevice)
       } else {
         toast.error("An error occured!");
       }
@@ -63,9 +61,15 @@ const Table = () => {
       <Modal handleSubmit={handleSubmit} />
       {/* add products and open modal button */}
       <div className="grid w-full place-items-end">
-        <label htmlFor="my-modal" className="btn btn-ghost text-primary">
-          + Add Products
-        </label>
+        {state.currentDevice === undefined ? (
+          <label onClick={()=> toast.warn('please add a device first!')} className="btn btn-ghost text-primary">
+            + Add Products
+          </label>
+        ) : (
+          <label htmlFor="my-modal" className="btn btn-ghost text-primary">
+            + Add Products
+          </label>
+        )}
       </div>
       <div className="overflow-x-auto w-full">
         {/* table starts here */}
@@ -107,14 +111,20 @@ const Table = () => {
           </table>
         ) : (
           <div className="w-[85vw] py-6 grid place-items-center -z-10 overflow-hidden">
-            {/* <Spinner /> */}
+            {state.currentDevice === undefined && (
+              <p className="text-center my-6 -mr-12 text-xl text-primary">
+                No devices , Let's add one!
+              </p>
+            )}
           </div>
         )}
         {state.currentProduct.product &&
           filterProducts(state.currentProduct.product).length === 0 && (
+            <div className="w-[100vw] grid place-items-center">
             <p className="text-center my-6 text-xl text-primary">
               No devices , Let's add one!
             </p>
+            </div>
           )}
       </div>
     </>

@@ -22,7 +22,7 @@ const ForgotOtp = () => {
 
   const sendEmail = async (email) => {
     let res = await axios.post(
-      "https://six-sense-mobility-iot.vercel.app/api/otp",
+      "http://localhost:3000/api/otp",
       {
         email,
         otp: num,

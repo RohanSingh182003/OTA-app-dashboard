@@ -31,7 +31,7 @@ const SetPassword = () => {
     let user = { email, password: enc_password }
 
     let res = await axios.post(
-      "https://six-sense-mobility-iot.vercel.app/api/users",user );
+      "http://localhost:3000/api/users",user );
 
     if (res.status != 200) {
       buttonRef.current.classList.remove('hidden')

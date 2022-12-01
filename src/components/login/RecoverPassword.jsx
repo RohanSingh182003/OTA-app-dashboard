@@ -27,7 +27,7 @@ const RecoverPassword = () => {
     ).toString();
 
     let response = await axios.get(
-      "https://six-sense-mobility-iot.vercel.app/api/users"
+      "http://localhost:3000/api/users"
     );
 
     let email = localStorage.getItem("recoveryEmail");
@@ -35,7 +35,7 @@ const RecoverPassword = () => {
     let user = response.data.find((ele) => ele.email === email);
 
     let res = await axios.put(
-      `https://six-sense-mobility-iot.vercel.app/api/users/${user._id}`,
+      `http://localhost:3000/api/users/${user._id}`,
       {
         password: enc_password,
       }

@@ -53,7 +53,7 @@ const Login = () => {
     spinnerRef.current.classList.remove('hidden')
 
     let res = await axios.get(
-      "https://six-sense-mobility-iot.vercel.app/api/users"
+      "http://localhost:3000/api/users"
     );
 
     let user = res.data.find((ele) => ele.email === email);

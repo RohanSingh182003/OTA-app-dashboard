@@ -19,10 +19,9 @@ const TableItems = (props) => {
         version,
         last_updated: new Date(),
       };
-      let email = state.currentProduct.email;
       let res = await axios.put(
         `http://localhost:3000/api/products/device/${props.id}`,
-        { product: myData, email, upload_file: file },
+        { product: myData, upload_file: file },
         { headers: { "Content-Type": "multipart/form-data" , "authorization": `Bearer ${state.currentProduct.token}` } }
       );
       if (res.status === 200) {
