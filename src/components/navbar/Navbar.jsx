@@ -1,6 +1,5 @@
 import React from "react";
 import Dropdown from "./Sidebar";
-import Search from "./Search";
 import User from "./User";
 
 const Navbar = () => {
@@ -13,7 +12,6 @@ const Navbar = () => {
         <a className="btn btn-ghost normal-case text-xl">Six Sense Mobility</a>
       </div>
       <div className="navbar-end">
-        <Search/>
         <User/>
       </div>
     </div>

@@ -54,19 +54,23 @@ const Table = () => {
     return products.filter((item) => item.device_type === state.currentDevice);
   };
 
-
-
   return (
     <>
       <Modal handleSubmit={handleSubmit} />
       {/* add products and open modal button */}
       <div className="grid w-full place-items-end dark:mb-4">
         {state.currentDevice === undefined ? (
-          <label onClick={()=> toast.warn('please add a device first!')} className="btn btn-ghost text-primary dark:btn-outline">
+          <label
+            onClick={() => toast.warn("please add a device first!")}
+            className="btn btn-ghost text-primary dark:btn-outline"
+          >
             + Add Products
           </label>
         ) : (
-          <label htmlFor="my-modal" className="btn btn-ghost dark:btn-outline text-primary">
+          <label
+            htmlFor="my-modal"
+            className="btn btn-ghost dark:btn-outline text-primary"
+          >
             + Add Products
           </label>
         )}
@@ -112,7 +116,7 @@ const Table = () => {
         ) : (
           <div className="w-[85vw] py-6 grid place-items-center -z-10 overflow-hidden">
             {state.currentDevice === undefined && (
-              <p className="text-center my-6 -mr-12 text-xl text-primary dark:text-gray-300">
+              <p className="text-center my-6 -mr-12 md:-mr-16 text-xl text-primary dark:text-gray-300">
                 No devices , Let's add one!
               </p>
             )}
@@ -121,9 +125,9 @@ const Table = () => {
         {state.currentProduct.product &&
           filterProducts(state.currentProduct.product).length === 0 && (
             <div className="w-[85vw] grid place-items-center">
-            <p className="text-center my-6 text-xl text-primary dark:text-gray-300">
-              No devices , Let's add one!
-            </p>
+              <p className="text-center my-6 -mr-12 md:-mr-16 text-xl text-primary dark:text-gray-300">
+                No devices , Let's add one!
+              </p>
             </div>
           )}
       </div>

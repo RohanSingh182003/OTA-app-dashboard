@@ -89,6 +89,21 @@ const Dropdown = () => {
     }
   };
 
+  // set index of device after delete device 
+  const handleDeleteIndex = () => {
+    let findIndex = state.currentProduct.devices.findIndex(ele => ele === state.currentDevice)
+    if(findIndex > 0){
+      return state.currentProduct.devices[findIndex - 1]
+    }
+    else{
+      if (state.currentProduct.devices.length === 0) {
+        return undefined
+      } else {
+        return state.currentProduct.devices[0]
+      }
+    }
+  }
+
   const handleDelete = (item) => {
     let ans = confirm("are you confirm to delete this device?");
     if (ans != true) return undefined;
@@ -106,7 +121,7 @@ const Dropdown = () => {
         dispatch({
           type: "setDevice",
           payload: {
-            device: state.currentProduct.devices[0],
+            device: handleDeleteIndex(),
           },
         });
         dispatch({
