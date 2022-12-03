@@ -8,7 +8,6 @@ import CryptoJS from "crypto-js";
 const User = () => {
   const navigate = useNavigate();
   const {state ,dispatch} = useContext(AppContext)
-  const [user, setUser] = useState(null)
   const handleLogout = () => {
     setTimeout(() => {
       toast.success("logout successfully!");
@@ -17,23 +16,15 @@ const User = () => {
     dispatch({ "type":"setInitialState"})
     navigate("/login");
   };
-
-  useEffect(() => {
-    let email = localStorage.getItem("user");
-    let dec_email = CryptoJS.AES.decrypt(email, "SixSenseMobility").toString(
-      CryptoJS.enc.Utf8
-    );
-    setUser(dec_email)
-  }, [])
   
   
   return (
     <button className="btn btn-ghost btn-circle dropdown dropdown-end">
-      <div className="tooltip tooltip-left lowercase" data-tip={user}>
+      <div className="tooltip tooltip-left lowercase" data-tip={state.currentProduct.email && state.currentProduct.email}>
       <div tabIndex={0} className="avatar">
       </div>
         <div className="w-8 rounded-full">
-          <p className="-mt-3 text-xl uppercase">{user && user.slice(0,2)}</p>
+          <p className="-mt-3 text-xl uppercase">{state.currentProduct.email && state.currentProduct.email.slice(0,2)}</p>
         </div>
       </div>
       <ul

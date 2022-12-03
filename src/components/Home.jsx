@@ -63,9 +63,6 @@ const Home = () => {
   useEffect(() => {
     getData();
   }, [state.key]); // to render components whenever make api calls and get current data.
-  
-
-  // useEffect(() => {}, [state.currentDevice]); // to render component whenever currentDevice changed.
 
   return (
     <>
@@ -73,7 +70,7 @@ const Home = () => {
       <Navbar />
       <div className="grid place-items-center xl:px-20">
         <h2 className="text-xl md:text-3xl my-4 p-2 font-semibold text-primary dark:text-gray-200">
-          OTA Update Management System
+          IOT Update Management System
         </h2>
         <Table />
       </div>

@@ -55,7 +55,7 @@ const Dropdown = () => {
     if (user) {
       let existingProd = state.currentProduct.devices.find(
         (ele) => ele === prod
-        );
+      );
       if (existingProd) return toast.warn("poroduct already exists!");
       let response = await axios.post(
         `http://localhost:3000/api/products/deviceType/${state.currentProduct._id}`,
@@ -89,20 +89,21 @@ const Dropdown = () => {
     }
   };
 
-  // set index of device after delete device 
+  // set index of device after delete device
   const handleDeleteIndex = () => {
-    let findIndex = state.currentProduct.devices.findIndex(ele => ele === state.currentDevice)
-    if(findIndex > 0){
-      return state.currentProduct.devices[findIndex - 1]
-    }
-    else{
+    let findIndex = state.currentProduct.devices.findIndex(
+      (ele) => ele === state.currentDevice
+    );
+    if (findIndex > 0) {
+      return state.currentProduct.devices[findIndex - 1];
+    } else {
       if (state.currentProduct.devices.length === 0) {
-        return undefined
+        return undefined;
       } else {
-        return state.currentProduct.devices[0]
+        return state.currentProduct.devices[0];
       }
     }
-  }
+  };
 
   const handleDelete = (item) => {
     let ans = confirm("are you confirm to delete this device?");
@@ -118,12 +119,14 @@ const Dropdown = () => {
           { headers: { authorization: `Bearer ${state.currentProduct.token}` } }
         );
         toast.success("device deleted successfully!");
-        dispatch({
-          type: "setDevice",
-          payload: {
-            device: handleDeleteIndex(),
-          },
-        });
+        if (item === state.currentDevice) {
+          dispatch({
+            type: "setDevice",
+            payload: {
+              device: handleDeleteIndex(item),
+            },
+          });
+        }
         dispatch({
           type: "setKey",
         });
@@ -149,7 +152,7 @@ const Dropdown = () => {
       </label>
       {/* sidebar starts here  */}
       <section
-        className={`absolute -top-2 -left-2 backdrop-blur-md shadow-2xl w-72 h-[100vh] border dark:border-gray-800 py-2 px-6 transition-transform ${toggle} z-20`}
+        className={`absolute -top-2 -left-2 backdrop-blur-md shadow-2xl w-72 min-h-[100vh] border dark:border-gray-800 py-2 px-6 transition-transform ${toggle} z-20`}
       >
         <AiOutlineClose
           onClick={handleToggle}
