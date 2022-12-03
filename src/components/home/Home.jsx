@@ -1,10 +1,10 @@
 import React, { useContext, useEffect} from "react";
-import Navbar from "./navbar/Navbar";
-import Table from "./table/Table";
-import ToastContainer from "./common/ToastContainer";
+import Navbar from "../navbar/Navbar";
+import Table from "../table/Table";
+import ToastContainer from "../common/ToastContainer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import AppContext from "../context/AppContext";
+import AppContext from "../../context/AppContext";
 import CryptoJS from "crypto-js";
 
 const Home = () => {
