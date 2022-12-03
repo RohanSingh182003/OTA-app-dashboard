@@ -62,14 +62,14 @@ const Table = () => {
         {state.currentDevice === undefined ? (
           <label
             onClick={() => toast.warn("please add a device first!")}
-            className="btn btn-ghost text-primary dark:btn-outline"
+            className="btn btn-ghost text-primary dark:btn-primary"
           >
             + Add Products
           </label>
         ) : (
           <label
             htmlFor="my-modal"
-            className="btn btn-ghost dark:btn-outline text-primary"
+            className="btn btn-ghost dark:btn-primary text-primary"
           >
             + Add Products
           </label>
