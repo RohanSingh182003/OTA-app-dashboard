@@ -54,7 +54,7 @@ const Dropdown = () => {
     // if user exists
     if (user) {
       let existingProd = state.currentProduct.devices.find(
-        (ele) => ele === prod
+        (ele) => ele.toLowerCase() === prod.toLowerCase()
       );
       if (existingProd) return toast.warn("poroduct already exists!");
       let response = await axios.post(

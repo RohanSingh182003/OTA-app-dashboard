@@ -10,7 +10,7 @@ const SidebarItems = (props) => {
         onClick={() => props.setDevice(props.title)}
         className="label cursor-pointer px-6 py-4 w-5/6"
       >
-        <span className="label-text dark:text-gray-100">{props.title}</span>
+        <span className="label-text dark:text-gray-100 capitalize">{props.title}</span>
         <input
           type="checkbox"
           className="toggle toggle-primary"
